@@ -12,7 +12,7 @@ point_light::point_light()
 	attach_child(da_box);
 }
 
-void point_light::update_current(milliseconds delta_time,
+void point_light::update_current(float delta_time,
     const glm::mat4& world_transform, glm::mat4& transform)
 {
 }

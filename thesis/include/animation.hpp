@@ -19,7 +19,6 @@ namespace anim
 {
 
 using namespace std::literals::chrono_literals;
-using std::chrono::milliseconds;
 
 class joint
 {
@@ -47,7 +46,7 @@ struct pose
 
 struct key_frame
 {
-    milliseconds timepoint{0ms};
+    float timepoint = 0.0f;
     skeleton_array<pose> poses;
 };
 
@@ -56,10 +55,10 @@ class animation
 public:
     void load(const std::vector<key_frame>& key_frames);
 
-    void update(milliseconds delta, skeleton& joints);
+    void update(float delta, skeleton& joints);
 
 private:
-    milliseconds time{0ms};
+    float time = 0.0f;
     std::vector<key_frame> key_frames;
     std::vector<key_frame>::const_iterator prev;
     std::vector<key_frame>::const_iterator next;
@@ -82,7 +81,7 @@ class model
 public:
     model();
 
-    void update(milliseconds delta);
+    void update(float delta);
 
     void draw(const shader& shader) const;
 

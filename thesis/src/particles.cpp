@@ -19,14 +19,13 @@ emitter::emitter()
     v_array.attribute_pointer(2, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
 }
 
-void emitter::update_current(milliseconds delta_time,
+void emitter::update_current(float delta_time,
     const glm::mat4& world_transform, glm::mat4& transform)
 {
     using namespace std::chrono;
 	using float_seconds = duration<float>;
-	float delta = duration_cast<float_seconds>(delta_time).count();
 
-    int new_particles = delta_time.count();
+    int new_particles = delta_time * 1000.0f;
     for (int i = 0; i < new_particles; ++i)
     {
         if(++last_used == particles.end()) last_used = particles.begin();
@@ -58,11 +57,11 @@ void emitter::update_current(milliseconds delta_time,
     int p_count = 0;
     for (auto& p : particles)
     {
-        p.life -= delta;
+        p.life -= delta_time;
         if(p.is_alive())
         {
-            p.speed += glm::vec3{0.0f, 9.8f, 0.0f} * delta;
-            p.position += p.speed * delta;
+            p.speed += glm::vec3{0.0f, 9.8f, 0.0f} * delta_time;
+            p.position += p.speed * delta_time;
             positions[p_count] = p.position;
             colors[p_count] = p.color;
         }

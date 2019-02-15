@@ -18,7 +18,7 @@ quad::quad(float x, float y, float z)
 }
 
 
-void quad::update_current(milliseconds delta_time,
+void quad::update_current(float delta_time,
     const glm::mat4& world_transform, glm::mat4& transform)
 {
 

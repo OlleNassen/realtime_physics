@@ -20,7 +20,7 @@ private:
 	texture tess_texture;
 	texture displacement_map;
 
-	void update_current(milliseconds delta_time,
+	void update_current(float delta_time,
 		const glm::mat4& world_transform, glm::mat4& transform) override;
 
 	void render_current(const shader& shader,

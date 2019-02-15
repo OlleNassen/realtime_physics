@@ -39,7 +39,7 @@ void node::sort(glm::vec3& pos)
     }
 }
 
-void node::update(const milliseconds delta)
+void node::update(const float delta)
 {
     glm::mat4 world_transform{1.0f};
     update(delta, world_transform);
@@ -63,7 +63,7 @@ void node::render(const shader& shader) const
     }
 }
 
-void node::update(const milliseconds delta, const glm::mat4& world_transform)
+void node::update(const float delta, const glm::mat4& world_transform)
 {
     world = world_transform * local;
 
@@ -74,7 +74,7 @@ void node::update(const milliseconds delta, const glm::mat4& world_transform)
     }
 }
 
-void node::update_current(const std::chrono::milliseconds delta,
+void node::update_current(float delta,
     const glm::mat4& world_transform, glm::mat4& transform)
 {
 

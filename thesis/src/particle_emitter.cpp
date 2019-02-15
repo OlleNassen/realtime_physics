@@ -54,7 +54,7 @@ particle_emitter::particle_emitter(float x, float y, float z)
 	quad_array.attribute_divisor(3, 1);
 }
 
-void particle_emitter::update_current(milliseconds delta_time,
+void particle_emitter::update_current(float delta_time,
     const glm::mat4& world_transform, glm::mat4& transform)
 {
 	instance_vbo.data(sizeof(glm::vec3) * offsets.size(),

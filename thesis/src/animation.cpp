@@ -18,14 +18,11 @@ constexpr glm::mat4 ai_to_glm(const aiMatrix4x4& mat)
 }
 
 constexpr float calculate_progression(
-    milliseconds prev, milliseconds next, milliseconds time)
+    float prev, float next, float time)
 {
     auto total_time = next - prev;
     auto current_time = time - prev;
-
-    return
-        static_cast<float>(current_time.count()) /
-        static_cast<float>(total_time.count());
+    return current_time / total_time;
 }
 
 pose mix(const pose& x, const pose& y, float a)
@@ -173,8 +170,7 @@ void load_key_frames(const aiAnimation* anim,
             {
                 using namespace std::chrono;
                 key_frames[j].timepoint =
-                    duration_cast<milliseconds>(duration<float>
-                    (channel->mPositionKeys[j].mTime));
+                    (float)(channel->mPositionKeys[j].mTime);
             }
 
             aiVector3D v = channel->mPositionKeys[j].mValue;
@@ -213,7 +209,7 @@ void animation::load(const std::vector<key_frame>& key_frames)
     ++next;
 }
 
-void animation::update(milliseconds delta, skeleton& joints)
+void animation::update(float delta, skeleton& joints)
 {
     time += delta;
 
@@ -230,7 +226,7 @@ void animation::update_key_frame()
 
         if (next == key_frames.end())
         {
-            time = 0ms;
+            time = 0.0f;
             prev = key_frames.begin();
             next = key_frames.begin();
             ++next;
@@ -294,7 +290,7 @@ model::model()
 	world_joints.fill(glm::mat4(1.0f));
 }
 
-void model::update(milliseconds delta)
+void model::update(float delta)
 {
 	current.update(delta, joints);
 

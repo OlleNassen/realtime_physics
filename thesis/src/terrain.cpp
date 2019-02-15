@@ -145,7 +145,7 @@ glm::vec3 terrain::calculate_camera_position(
     return world_position;
 }
 
-void terrain::update_current(milliseconds delta_time,
+void terrain::update_current(float delta_time,
     const glm::mat4& world_transform, glm::mat4& transform)
 {
     inverse_transform = glm::inverse(world_transform);

@@ -9,9 +9,6 @@
 namespace scene
 {
 
-using namespace std::literals::chrono_literals;
-using milliseconds = std::chrono::milliseconds;
-
 template< typename T>
 static constexpr char* buffer_offset(unsigned int offset)
 {
@@ -30,7 +27,7 @@ public:
     void clear();
 
     void sort(glm::vec3& pos);
-    void update(milliseconds delta);
+    void update(float delta);
     void prepare_render(const shader& shader) const;
     void render(const shader& shader) const;
 
@@ -40,9 +37,9 @@ private:
     glm::mat4 local{1.0f};
     glm::mat4 world{1.0f};
 
-    void update(milliseconds delta, const glm::mat4& world_transform);
+    void update(float delta, const glm::mat4& world_transform);
 
-    virtual void update_current(milliseconds delta,
+    virtual void update_current(float delta,
         const glm::mat4& world_transform, glm::mat4& transform);
     virtual void prepare_render_current(const shader& shader,
         const glm::mat4& world_transform) const;

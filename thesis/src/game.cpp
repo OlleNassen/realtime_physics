@@ -70,7 +70,7 @@ game::game()
 	light_pos = glm::vec3(50, 5, -15);
     phong_pos = glm::vec3(0, 10, 5);
 
-    terrain.update(16ms);
+    terrain.update(0.0f);
     for(auto& checkpoint : current_race)
     {
 		glm::vec3 v;
@@ -85,24 +85,26 @@ game::game()
 }
 
 void game::run()
-{
-	using clock = std::chrono::steady_clock;
-    auto last_time = clock::now();
-    auto delta_time = 0ns;
+{	
+	double timestep = 1.0 / 60.0;
+	double last_time = glfwGetTime();
+	double delta_time = 0.0f;
 
 	while (game_window.is_open())
 	{
-		delta_time += clock::now() - last_time;
-        last_time = clock::now();
+		double now = glfwGetTime();
+		delta_time += now - last_time;
+        last_time = now;
 
-        if(delta_time > timestep)
-        {
-            delta_time = 0ns;
-            update(timestep);
-        }
+		while (delta_time > timestep)
+		{
+			game_window.poll_events();
+			update((float)timestep);
+			delta_time -= timestep;
+		}
 
 		render();
-		game_window.poll_events();
+		
 	}
 }
 
@@ -183,7 +185,7 @@ void game::render()
 	game_window.swap_buffers();
 }
 
-void game::update(std::chrono::milliseconds delta_time)
+void game::update(float delta_time)
 {
 	glm::vec3 cam_pos = game_camera.get_pos();
 	scene.sort(cam_pos);
@@ -220,9 +222,9 @@ void game::update(std::chrono::milliseconds delta_time)
     {
         ui_text = "victory!";
         color_timer += delta_time;
-        if (color_timer > 500ms)
+        if (color_timer > 0.500)
         {
-            color_timer = 0ms;
+            color_timer = 0.0;
             for (auto& obj : icos)
             {
                  obj.set_color(glm::vec3(
@@ -234,7 +236,7 @@ void game::update(std::chrono::milliseconds delta_time)
 	}
 
     seconds += delta_time;
-    light_pos.x += glm::sin(seconds.count() * 2.0f);
-	light_pos.y += glm::sin(seconds.count() * 0.7f);
-	phong_pos.x += sin(seconds.count() * 2.0f) / 10.0f;
+    light_pos.x += glm::sin(seconds * 2.0f);
+	light_pos.y += glm::sin(seconds * 0.7f);
+	phong_pos.x += sin(seconds * 2.0f) / 10.0f;
 }

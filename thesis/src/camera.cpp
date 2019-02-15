@@ -119,7 +119,7 @@ void camera::fast_released()
     pressed_shift = false;
 }
 
-void camera::update(const std::chrono::milliseconds delta_time)
+void camera::update(float delta_time)
 {
 	using namespace std::chrono;
 	using float_seconds = duration<float>;
@@ -129,7 +129,7 @@ void camera::update(const std::chrono::milliseconds delta_time)
 	{
 		velocity *= 10;
 	}
-	velocity *= duration_cast<float_seconds>(delta_time).count();
+	velocity *= delta_time;
 
     if (pressed_up)
         position += forward * velocity;

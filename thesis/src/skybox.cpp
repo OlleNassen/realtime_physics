@@ -83,7 +83,7 @@ skybox::skybox()
     vao.attribute_pointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
 }
 
-void skybox::update_current(milliseconds delta_time,
+void skybox::update_current(float delta_time,
         const glm::mat4& world_transform, glm::mat4& transform)
 {
 

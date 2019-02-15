@@ -27,9 +27,10 @@
 std::ostream& operator<<(std::ostream& os, const glm::mat4& value);
 using namespace std::literals::chrono_literals;
 
-static constexpr auto timestep = 16ms;
 static constexpr auto width = 1280u;
 static constexpr auto height = 720u;
+
+typedef float seconds;
 
 class game
 {
@@ -86,12 +87,12 @@ private:
 
 	glm::vec3 light_pos;
 	glm::vec3 phong_pos;
-	std::chrono::duration<float> seconds{0s};
-	std::chrono::milliseconds color_timer{0ms};
+	float seconds = 0.0;
+	float color_timer = 0.0;
 	std::string ui_text;
 
 	void render();
-	void update(std::chrono::milliseconds delta_time);
+	void update(float delta_time);
 };
 
 #endif

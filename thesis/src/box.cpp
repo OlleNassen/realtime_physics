@@ -21,7 +21,7 @@ box::box(float x, float y, float z)
         GL_FALSE, 8 * sizeof(float), buffer_offset<float>(5u));
 }
 
-void box::update_current(milliseconds delta_time,
+void box::update_current(float delta_time,
         const glm::mat4& world_transform, glm::mat4& transform)
 {
 

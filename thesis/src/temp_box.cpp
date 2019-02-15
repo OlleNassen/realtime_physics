@@ -19,7 +19,7 @@ temp_box::temp_box(float x, float y, float z)
 	color = glm::vec3(1.0f, 0.5f, 0.31f);
 }
 
-void temp_box::update_current(milliseconds delta_time,
+void temp_box::update_current(float delta_time,
 	const glm::mat4& world_transform, glm::mat4& transform)
 {
 	glm::vec3 pos = glm::vec3(world_transform[0][0],

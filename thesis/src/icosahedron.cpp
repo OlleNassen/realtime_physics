@@ -74,7 +74,7 @@ void icosahedron::set_tessellation(float distance)
 	}
 }
 
-void icosahedron::update_current(milliseconds delta_time,
+void icosahedron::update_current(float delta_time,
     const glm::mat4 & world_transform, glm::mat4 & transform)
 {
 }

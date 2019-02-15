@@ -36,7 +36,7 @@ quad_tess::quad_tess(float x, float y, float z)
         GL_FALSE, 5 * sizeof(float), buffer_offset<float>(3u));
 }
 
-void quad_tess::update_current(milliseconds delta_time,
+void quad_tess::update_current(float delta_time,
     const glm::mat4& world_transform, glm::mat4& transform)
 {
 }
