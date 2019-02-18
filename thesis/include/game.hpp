@@ -51,10 +51,6 @@ private:
 	shader environment_shader{"resources/shaders/environment_mapping.vs",
         "resources/shaders/environment_mapping.fs"};
 	shader text_shader{"resources/shaders/text.vs", "resources/shaders/text.fs"};
-	shader tess_shader{"resources/shaders/tess.vs", "resources/shaders/tess.cs",
-        "resources/shaders/tess.es", "resources/shaders/tess.fs"};
-	shader backface_shader{ "resources/shaders/backface.vs",
-        "resources/shaders/backface.gs", "shaders/backface.fs" };
 	shader p{ "resources/shaders/particle.vs", "resources/shaders/particle.fs" };
 
 

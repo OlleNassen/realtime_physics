@@ -126,10 +126,7 @@ void game::render()
 	scene.render(basic_shader);
 	quad.render(basic_shader);
 
-	//Backface culling
-	backface_shader.use();
-	game_camera.bind(backface_shader);
-	backface.render(backface_shader);
+	backface.render(basic_shader);
 
 	terrain_shader.use();
 	game_camera.bind(terrain_shader);
@@ -152,11 +149,11 @@ void game::render()
 	game_camera.bind(environment_shader);
 	environment.render(environment_shader);
 
-	tess_shader.use();
-	game_camera.bind(tess_shader);
+	basic_shader.use();
+	game_camera.bind(basic_shader);
 	for (auto& ics : icos)
 	{
-		ics.render(tess_shader);
+		ics.render(basic_shader);
 	}
 
 	billboard_shader.use();
@@ -188,12 +185,10 @@ void game::render()
 void game::update(float delta_time)
 {
 	glm::vec3 cam_pos = game_camera.get_pos();
-	scene.sort(cam_pos);
 
 	for (auto& ico : icos)
 	{
 		ico.update(delta_time);
-		ico.set_tessellation(ico.distance_to(cam_pos));
 	}
     terrain.update(delta_time);
     game_camera.move_on_terrain(terrain);
