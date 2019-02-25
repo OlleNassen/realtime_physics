@@ -45,8 +45,8 @@ void load_mesh(const aiMesh* mesh, std::vector<vertex>& vertices,
 		vertices[i].position.y = mesh->mVertices[i].y;
 		vertices[i].position.z = mesh->mVertices[i].z;
 
-		//vertices[i].texture_coordinate.x = mesh->mTextureCoords[0][i].x;
-		//vertices[i].texture_coordinate.y = mesh->mTextureCoords[0][i].y;
+		vertices[i].texture_coordinate.x = mesh->mTextureCoords[0][i].x;
+		vertices[i].texture_coordinate.y = mesh->mTextureCoords[0][i].y;
 
 		vertices[i].normal.x = mesh->mNormals[i].x;
 		vertices[i].normal.y = mesh->mNormals[i].y;
@@ -262,7 +262,7 @@ model::model()
 {
     std::vector<key_frame> key_frames;
 
-	import_model("resources/models/ball.dae",
+	import_model("resources/models/untitled.dae",
         vertices, indices, joints,
         key_frames);
 
