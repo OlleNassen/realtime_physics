@@ -86,7 +86,7 @@ public:
     void draw(const shader& shader) const;
 
 private:
-    texture diffuse{"resources/models/diffuse.png"};
+    texture diffuse{"resources/models/factory_wall_diff_1k.png"};
     std::vector<vertex> vertices;
     std::vector<unsigned int> indices;
 

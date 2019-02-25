@@ -64,6 +64,7 @@ private:
 	directional_light light;
 
 	anim::model temp_model;
+	anim::model ball_model;
 
 	scene::point_light pl;
 	scene::box s_box{20, 38, 40};

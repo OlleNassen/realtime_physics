@@ -45,8 +45,8 @@ void load_mesh(const aiMesh* mesh, std::vector<vertex>& vertices,
 		vertices[i].position.y = mesh->mVertices[i].y;
 		vertices[i].position.z = mesh->mVertices[i].z;
 
-		vertices[i].texture_coordinate.x = mesh->mTextureCoords[0][i].x;
-		vertices[i].texture_coordinate.y = mesh->mTextureCoords[0][i].y;
+		//vertices[i].texture_coordinate.x = mesh->mTextureCoords[0][i].x;
+		//vertices[i].texture_coordinate.y = mesh->mTextureCoords[0][i].y;
 
 		vertices[i].normal.x = mesh->mNormals[i].x;
 		vertices[i].normal.y = mesh->mNormals[i].y;
@@ -194,8 +194,8 @@ void import_model(const std::string& path,
         aiProcess_FlipUVs);
 
     load_mesh(scene->mMeshes[0], vertices, indices);
-	load_skeleton(scene->mRootNode, joints);
-	load_key_frames(scene->mAnimations[0], key_frames);
+	//load_skeleton(scene->mRootNode, joints);
+	//load_key_frames(scene->mAnimations[0], key_frames);
 }
 
 
@@ -213,8 +213,8 @@ void animation::update(float delta, skeleton& joints)
 {
     time += delta;
 
-    update_key_frame();
-    update_pose(joints);
+    //update_key_frame();
+    //update_pose(joints);
 }
 
 void animation::update_key_frame()
@@ -262,11 +262,11 @@ model::model()
 {
     std::vector<key_frame> key_frames;
 
-	import_model("resources/models/model.dae",
+	import_model("resources/models/ball.dae",
         vertices, indices, joints,
         key_frames);
 
-	current.load(key_frames);
+	//current.load(key_frames);
 
 	auto stride = 12 * sizeof(float) + 4 * sizeof(unsigned int);
 
