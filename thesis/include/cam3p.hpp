@@ -37,7 +37,7 @@ static glm::vec3 DirectionVector(spherical_point P)
 static void BindCamera(cam3p* P, shader* shad)
 {
 	glm::vec3 Forward = DirectionVector(P->CameraPosition);
-
+	
 	glm::vec3 Position = P->PlayerPosition;
 	Position.x -= Forward.x * P->CameraPosition.Radius;
 	Position.y -= Forward.y * P->CameraPosition.Radius;
@@ -102,7 +102,7 @@ static void UpdateCamera(cam3p* State, int MX, int MY, bool UpB, bool LeftB, boo
 	glm::vec3 up = {};
 	up.y = 1.0f;
 
-	glm::vec3 right = glm::cross(forward, up);
+	glm::vec3 right = glm::normalize(glm::cross(forward, up));
 	up = glm::cross(right, forward);
 
 	float speed = 10.0f * Timestep;
@@ -130,13 +130,16 @@ static void UpdateCamera(cam3p* State, int MX, int MY, bool UpB, bool LeftB, boo
 
 	glm::vec3 Up = {};
 	Up.y = 1.0f;
-
-	glm::vec3 Right = glm::cross(Forward, Up);
+	
+	glm::vec3 Right = glm::normalize(glm::cross(Forward, Up));
 	Up = glm::cross(Right, Forward);
 
 	glm::mat4 temp = {};
 	State->View = temp;
 
+	State->View[0][0] = 1.0f;
+	State->View[1][1] = 1.0f;
+	State->View[2][2] = 1.0f;
 	State->View[3][3] = 1.0f;
 
 	State->View[0][0] = Right.x;

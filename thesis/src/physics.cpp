@@ -20,7 +20,6 @@ bool sphere_plane(sphere* sphere, plane* plane)
 
 	float radius_squared = sphere->radius * sphere->radius;
 	return distance_squared < radius_squared;
-
 }
 
 void update(world* w)
