@@ -96,7 +96,7 @@ game::game()
 		bool First;
 	};*/
 	ThirdPersonCamera.First = true;
-	ThirdPersonCamera.CameraPosition.Radius = 25.0f;
+	ThirdPersonCamera.CameraPosition.Radius = 5.0f;
 }
 
 void game::run()

@@ -90,7 +90,7 @@ static void UpdateCamera(cam3p* State, int MX, int MY, bool UpB, bool LeftB, boo
 	State->DX = MX;
 	State->DY = MY;
 	
-	float Timestep = 1.0f / 480.0f;
+	float Timestep = 1.0f / 60.0f;
 	float Sensitivity = 0.05f;
 	
 	RotateCamera(&State->CameraPosition,
