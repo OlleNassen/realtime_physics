@@ -23,7 +23,7 @@ void main()
     matrix += joint_transforms[joint[2]] * weight[2];
     matrix += joint_transforms[joint[3]] * weight[3];
 
-    texture_pos = position.xy;//texture_coordinate;
+    texture_pos = position.xy;
 
     gl_Position = projection * view * model * vec4(position, 1.0);
 }
