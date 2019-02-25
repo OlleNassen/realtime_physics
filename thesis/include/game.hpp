@@ -24,6 +24,12 @@
 #include "text.hpp"
 #include "particles.hpp"
 
+struct ball
+{
+	glm::vec3 position;
+	float radius;
+};
+
 std::ostream& operator<<(std::ostream& os, const glm::mat4& value);
 using namespace std::literals::chrono_literals;
 
