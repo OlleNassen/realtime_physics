@@ -24,6 +24,8 @@
 #include "text.hpp"
 #include "particles.hpp"
 
+#include "cam3p.hpp"
+
 struct ball
 {
 	glm::vec3 position;
@@ -93,6 +95,8 @@ private:
 	float seconds = 0.0;
 	float color_timer = 0.0;
 	std::string ui_text;
+
+	cam3p ThirdPersonCamera = {};
 
 	void render();
 	void update(float delta_time);

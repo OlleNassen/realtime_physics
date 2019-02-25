@@ -85,7 +85,20 @@ public:
 
     void draw(const shader& shader) const;
 
+	glm::vec3 get_position()const
+	{
+		return model_mat[3];
+	}
+
+	void set_position(const glm::vec3& position)
+	{
+		model_mat[3] = glm::vec4(position, 1);
+	}
+
+	
 private:
+	glm::mat4 model_mat{-1,0,0,0,0,0,1,0,0,1,0,0,0,0,0,1};
+
     texture diffuse{"resources/models/factory_wall_diff_1k.png"};
     std::vector<vertex> vertices;
     std::vector<unsigned int> indices;
@@ -93,7 +106,7 @@ private:
     skeleton joints;
     skeleton_array<glm::mat4> world_joints;
 
-    glm::mat4 model_mat{-1,0,0,0,0,0,1,0,0,1,0,0,0,0,0,1};
+    
 
     animation current;
 

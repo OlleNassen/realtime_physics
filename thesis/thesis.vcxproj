@@ -331,6 +331,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='unity_debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='unity_debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="include\cam3p.hpp" />
     <ClInclude Include="include\camera.hpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='unity_debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='unity_debug|x64'">true</ExcludedFromBuild>

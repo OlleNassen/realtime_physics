@@ -25,8 +25,9 @@ public:
     void swap_buffers();
     void poll_events();
 
+	GLFWwindow* glfw_window;
 private:
-    GLFWwindow* glfw_window;
+    
 };
 
 enum class key

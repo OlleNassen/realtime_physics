@@ -82,6 +82,21 @@ game::game()
             sphere(terrain.calculate_camera_position(v, 2.5f), 2.5f);
     }
     icos.reserve(10 * sizeof(scene::icosahedron));
+
+	
+	/*struct cam3p
+	{
+
+		glm::vec3 PlayerPosition;
+		spherical_point CameraPosition;
+		mat4 View;
+		mat4 Projection;
+		int DX;
+		int DY;
+		bool First;
+	};*/
+	ThirdPersonCamera.First = true;
+	ThirdPersonCamera.CameraPosition.Radius = 25.0f;
 }
 
 void game::run()
@@ -115,13 +130,15 @@ void game::render()
 	glViewport(0, 0, width, height);
 
 	phong_shader.use();
-	game_camera.bind(phong_shader);
+	BindCamera(&ThirdPersonCamera, &phong_shader);
+	//game_camera.bind(phong_shader);
 	phong_shader.uniform("light_color", glm::vec3(1.f, 1.f, 1.f));
 	phong_shader.uniform("light_pos", phong_pos);
 	temp.render(phong_shader);
 
 	basic_shader.use();
-	game_camera.bind(basic_shader);
+	BindCamera(&ThirdPersonCamera, &basic_shader);
+	//game_camera.bind(basic_shader);
 	light.bind(basic_shader);
 	scene.render(basic_shader);
 	quad.render(basic_shader);
@@ -129,46 +146,54 @@ void game::render()
 	backface.render(basic_shader);
 
 	terrain_shader.use();
-	game_camera.bind(terrain_shader);
+	BindCamera(&ThirdPersonCamera, &terrain_shader);
+	//game_camera.bind(terrain_shader);
 	terrain.render(terrain_shader);
 
 	//Normal mapping
 	normal_shader.use();
-	game_camera.bind(normal_shader);
+	BindCamera(&ThirdPersonCamera, &normal_shader);
+	//game_camera.bind(normal_shader);
 	normal_shader.uniform("light_pos", light_pos);
 	normal_quad.render(normal_shader);
 
 	skybox_shader.use();
-	game_camera.bind(skybox_shader);
+	BindCamera(&ThirdPersonCamera, &skybox_shader);
+	//game_camera.bind(skybox_shader);
 	skybox_shader.uniform("view",
         glm::mat4(glm::mat3(game_camera.get_view())));
 
 	sky.render(skybox_shader);
 
 	environment_shader.use();
-	game_camera.bind(environment_shader);
+	BindCamera(&ThirdPersonCamera, &environment_shader);
+	//game_camera.bind(environment_shader);
 	environment.render(environment_shader);
 
 	basic_shader.use();
-	game_camera.bind(basic_shader);
+	BindCamera(&ThirdPersonCamera, &basic_shader);
+	//game_camera.bind(basic_shader);
 	for (auto& ics : icos)
 	{
 		ics.render(basic_shader);
 	}
 
 	billboard_shader.use();
-	game_camera.bind(billboard_shader);
+	BindCamera(&ThirdPersonCamera, &billboard_shader);
+	//game_camera.bind(billboard_shader);
 	particles.render(billboard_shader);
 
 	//Animated model
 	anim.use();
-	game_camera.bind(anim);
+	BindCamera(&ThirdPersonCamera, &anim);
+	//game_camera.bind(anim);
 	temp_model.draw(anim);
 
     if(current_race.lap() < 1)
     {
         p.use();
-        game_camera.bind(p);
+		BindCamera(&ThirdPersonCamera, &p);
+		//game_camera.bind(p);
         emitter.render(p);
     }
 
@@ -234,4 +259,16 @@ void game::update(float delta_time)
     light_pos.x += glm::sin(seconds * 2.0f);
 	light_pos.y += glm::sin(seconds * 0.7f);
 	phong_pos.x += sin(seconds * 2.0f) / 10.0f;
+
+	double MX, MY;
+	glfwGetCursorPos(game_window.glfw_window, &MX, &MY);
+	ThirdPersonCamera.PlayerPosition = temp_model.get_position();
+
+	UpdateCamera(&ThirdPersonCamera, (int)MX, (int)MY,
+		(bool)glfwGetKey(game_window.glfw_window, GLFW_KEY_W),
+		(bool)glfwGetKey(game_window.glfw_window, GLFW_KEY_A),
+		(bool)glfwGetKey(game_window.glfw_window, GLFW_KEY_S),
+		(bool)glfwGetKey(game_window.glfw_window, GLFW_KEY_D));
+
+	
 }
