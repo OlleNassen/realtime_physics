@@ -68,8 +68,8 @@ private:
 
 	glm::vec3 light_pos;
 	glm::vec3 phong_pos;
-	float seconds = 0.0;
-	float color_timer = 0.0;
+	float seconds = 0.0f;
+	float color_timer = 0.0f;
 	std::string ui_text;
 
 	cam3p ThirdPersonCamera = {};

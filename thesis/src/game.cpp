@@ -82,7 +82,7 @@ void game::run()
 {	
 	double timestep = 1.0 / 60.0;
 	double last_time = glfwGetTime();
-	double delta_time = 0.0f;
+	double delta_time = 0.0;
 
 	while (game_window.is_open())
 	{
