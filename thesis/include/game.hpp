@@ -40,18 +40,11 @@ public:
 
 private:
 	window game_window{width, height, "VOILA"};
-	shader basic_shader{"resources/shaders/basic.vs", "resources/shaders/basic.fs"};
-	shader skybox_shader{"resources/shaders/skybox.vs", "resources/shaders/skybox.fs"};
-	shader phong_shader{"resources/shaders/phong.vs", "resources/shaders/phong.fs"};
-	shader normal_shader{"resources/shaders/normal.vs", "resources/shaders/normal.fs"};
-	shader anim{"resources/shaders/anim.vs", "resources/shaders/anim.fs"};
-	shader billboard_shader{"resources/shaders/billboard.vs", "resources/shaders/billboard.fs"};
-	shader terrain_shader{"resources/shaders/terrain.vs", "resources/shaders/terrain.fs"};
-	shader environment_shader{"resources/shaders/environment_mapping.vs",
-        "resources/shaders/environment_mapping.fs"};
-	shader text_shader{"resources/shaders/text.vs", "resources/shaders/text.fs"};
-	shader p{ "resources/shaders/particle.vs", "resources/shaders/particle.fs" };
 
+	shader skybox_shader{"resources/shaders/skybox.vs", "resources/shaders/skybox.fs"};
+	shader anim{"resources/shaders/anim.vs", "resources/shaders/anim.fs"};
+	shader terrain_shader{"resources/shaders/terrain.vs", "resources/shaders/terrain.fs"};
+	shader text_shader{"resources/shaders/text.vs", "resources/shaders/text.fs"};
 
 	camera game_camera;
 	directional_light light;
