@@ -302,7 +302,11 @@ void model::draw(const shader& shader) const
 {
 	shader.uniform("model", model_mat);
 	shader.uniform("joint_transforms", world_joints);
-    diffuse.uniform(shader, "diffuse", 0);
+    albedo.uniform(shader, "albedo", 0);
+	normal.uniform(shader, "normal", 1);
+	metallic.uniform(shader, "metallic", 2);
+	roughness.uniform(shader, "roughness", 3);
+
 	model_array.bind();
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
