@@ -100,26 +100,11 @@ void game::render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glViewport(0, 0, width, height);
 
-	phong_shader.use();
-	BindCamera(&ThirdPersonCamera, &phong_shader);
-	//game_camera.bind(phong_shader);
-	phong_shader.uniform("light_color", glm::vec3(1.f, 1.f, 1.f));
-	phong_shader.uniform("light_pos", phong_pos);
-
-	basic_shader.use();
-	BindCamera(&ThirdPersonCamera, &basic_shader);
-	//game_camera.bind(basic_shader);
-	light.bind(basic_shader);
-	scene.render(basic_shader);
 
 	terrain_shader.use();
 	BindCamera(&ThirdPersonCamera, &terrain_shader);
 	//game_camera.bind(terrain_shader);
 	terrain.render(terrain_shader);
-
-	//Normal mapping
-	normal_shader.use();
-	BindCamera(&ThirdPersonCamera, &normal_shader);
 
 	skybox_shader.use();
 	BindCamera(&ThirdPersonCamera, &skybox_shader);
@@ -129,27 +114,11 @@ void game::render()
 
 	sky.render(skybox_shader);
 
-	environment_shader.use();
-	BindCamera(&ThirdPersonCamera, &environment_shader);
-
-	basic_shader.use();
-	BindCamera(&ThirdPersonCamera, &basic_shader);
-
-	billboard_shader.use();
-	BindCamera(&ThirdPersonCamera, &billboard_shader);
-
 	//Animated model
 	anim.use();
 	BindCamera(&ThirdPersonCamera, &anim);
 	//game_camera.bind(anim);
 	temp_model.draw(anim);
-
-	//Text
-    text_shader.use();
-    glm::mat4 projection = glm::ortho(0.0f, 1280.f, 0.0f, 720.f);
-    text_shader.uniform("projection", projection);
-    text_shader.uniform("text_color", glm::vec3(0.8f, 0.8f, 0.8f));
-    temp_text.render_text(ui_text.c_str(), 10, 10, 1);
 
 	game_window.swap_buffers();
 }
