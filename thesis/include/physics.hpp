@@ -7,7 +7,9 @@ struct point
 {
 	glm::vec3 position;
 	glm::vec3 old_position;
-	glm::vec3 acceleration;
+	
+	glm::vec3 rotation;
+	glm::vec3 old_rotation;
 };
 
 struct sphere

@@ -28,17 +28,39 @@ void update_verlet(world* w)
 
 	glm::vec3 acceleration;
 	acceleration.x = 0.0f;
-	acceleration.y = 0.0f;// -9.82f;
+	acceleration.y = -9.82f;
 	acceleration.z = 0.0f;
 
-	glm::vec3 temp = w->player_position.position;
+	//Position
+	glm::vec3 temp_position = w->player_position.position;
 
 	w->player_position.position =
 		2.0f * w->player_position.position
 		- w->player_position.old_position +
 		acceleration * w->dt * w->dt;
 
-	w->player_position.old_position = temp;
+	acceleration.y = 0.0f;
+	
+	//Rotation	
+	glm::vec3 temp_rotation = w->player_position.rotation;
+
+	w->player_position.rotation =
+		2.0f * w->player_position.rotation
+		- w->player_position.old_rotation +
+		acceleration * w->dt * w->dt;
 
 	//resolve collisions
+	w->player_collider.position = w->player_position.position;
+	
+	if (sphere_plane(&w->player_collider, &w->planes[0]))
+	{
+		w->player_position.position = temp_position;
+		w->player_position.rotation = temp_rotation;
+	}
+	else
+	{
+		w->player_position.old_position = temp_position;
+		w->player_position.old_rotation = temp_rotation;
+	}
+
 }
