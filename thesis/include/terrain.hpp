@@ -26,12 +26,9 @@ private:
 	vertex_array terrain_array;
 	buffer terrain_vbo;
 	buffer terrain_ebo{GL_ELEMENT_ARRAY_BUFFER};
-	texture grass{"resources/images/grass.png",
-        wrap::REPEAT, filter::LINEAR, format::RGBA};
-	texture slope{"resources/images/slope.png",
-        wrap::REPEAT, filter::LINEAR, format::RGBA};
-	texture rock{"resources/images/rock.png",
-        wrap::REPEAT, filter::LINEAR, format::RGBA};
+	texture grass{"resources/images/grass.png"};
+	texture slope{"resources/images/slope.png"};
+	texture rock{"resources/images/rock.png"};
 
 	int width = 0;
 	int height = 0;

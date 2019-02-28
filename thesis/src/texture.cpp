@@ -3,99 +3,70 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 
-texture::texture(const int width,
-    int height,
-    wrap wrap_parameter,
-    filter filter_parameter,
-    format format_parameter,
-    type type_parameter)
+texture::texture(const std::string& path)
 {
-    generate(wrap_parameter, filter_parameter);
+	glGenTextures(1, &id);
 
-    glTexImage2D(GL_TEXTURE_2D, 0,
-        static_cast<int>(format_parameter),
-        width, height, 0,
-        static_cast<unsigned int>(format_parameter),
-        static_cast<unsigned int>(type_parameter), nullptr);
+	int width, height, nrComponents;
+	unsigned char *data = stbi_load(path.c_str(), &width, &height, &nrComponents, 0);
+	if (data)
+	{
+		GLenum format;
+		if (nrComponents == 1)
+			format = GL_RED;
+		else if (nrComponents == 3)
+			format = GL_RGB;
+		else if (nrComponents == 4)
+			format = GL_RGBA;
+
+		glBindTexture(GL_TEXTURE_2D, id);
+		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+		glGenerateMipmap(GL_TEXTURE_2D);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+		stbi_image_free(data);
+	}
+	else
+	{
+		std::cout << "Texture failed to load at path: " << path << std::endl;
+		stbi_image_free(data);
+	}
 }
 
-texture::texture(const std::string& path,
-    wrap wrap_parameter,
-    filter filter_parameter,
-    format format_parameter,
-    type type_parameter)
+texture::texture(const std::vector<std::string>& paths)
 {
-    generate(wrap_parameter, filter_parameter);
+	stbi_set_flip_vertically_on_load(false);
 
-    auto width = 0;
-    auto height = 0;
-    auto nr_of_channels = 0;
-    auto* data = stbi_load(path.c_str(),
-        &width, &height, &nr_of_channels, 0);
+	glGenTextures(1, &id);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, id);
 
-	stbi_set_flip_vertically_on_load(true);
-
-    if (data)
-    {
-        glTexImage2D(GL_TEXTURE_2D, 0,
-        static_cast<int>(format_parameter),
-        width, height, 0,
-        static_cast<unsigned int>(format_parameter),
-        static_cast<unsigned int>(type_parameter), data);
-        glGenerateMipmap(GL_TEXTURE_2D);
-    }
-    else
-    {
-        std::cout << "Failed to load texture: " << path << std::endl;
-    }
-    stbi_image_free(data);
-}
-
-texture::texture(const std::vector<std::string>& paths,
-    wrap wrap_parameter,
-    filter filter_parameter,
-    format format_parameter,
-    type type_parameter)
-{
-    glGenTextures(1, &id);
-    glBindTexture(GL_TEXTURE_CUBE_MAP, id);
-
-    stbi_set_flip_vertically_on_load(false);
-
-    auto width = 0;
-    auto height = 0;
-    auto nr_of_channels = 0;
-
-    for (auto i = 0u; i < paths.size(); ++i)
-    {
-        auto* data = stbi_load(paths[i].c_str(),
-            &width, &height, &nr_of_channels, 0);
-        if (data)
-        {
-            glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
-                0, static_cast<unsigned int>(format_parameter), width, height,
-                0, static_cast<unsigned int>(format_parameter),
-                static_cast<unsigned int>(type_parameter), data);
-        }
-        else
-        {
-            std::cout << "Cubemap texture failed to load at path: "
-                << paths[i] << std::endl;
-
-        }
-        stbi_image_free(data);
-    }
-
-    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S,
-        static_cast<int>(wrap_parameter));
-    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T,
-        static_cast<int>(wrap_parameter));
-    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R,
-        static_cast<int>(filter_parameter));
-    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER,
-        static_cast<int>(filter_parameter));
-    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER,
-        static_cast<int>(filter_parameter));
+	auto width = 0;
+	auto height = 0;
+	auto num_components = 0;
+	int i = 0;
+	for (const auto& face : paths)
+	{
+		unsigned char *data = stbi_load(face.c_str(), &width, &height, &num_components, 0);
+		if (data)
+		{
+			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i++, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+		}
+		else
+		{
+			std::cout << "Cubemap texture failed to load at path: " << face << std::endl;
+		}
+		stbi_image_free(data);
+		glFinish();
+	}
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 }
 
 texture::~texture()
@@ -122,18 +93,4 @@ void texture::bind_to_buffer() const
 {
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
         GL_TEXTURE_2D, id, 0);
-}
-
-void texture::generate(wrap wrap_parameter, filter filter_parameter)
-{
-    glGenTextures(1, &id);
-    glBindTexture(GL_TEXTURE_2D, id);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,
-        static_cast<int>(wrap_parameter));
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,
-        static_cast<int>(wrap_parameter));
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
-        static_cast<int>(filter_parameter));
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,
-        static_cast<int>(filter_parameter));
 }

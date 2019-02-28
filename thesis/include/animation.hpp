@@ -99,10 +99,10 @@ public:
 private:
 	glm::mat4 model_mat{-1,0,0,0,0,0,1,0,0,1,0,0,0,0,0,1};
 
-    texture albedo{"resources/textures/rustediron2_albedo.png", wrap::REPEAT, filter::LINEAR, format::RGBA, type::UNSIGNED_BYTE};
-	texture normal{ "resources/textures/rustediron2_normal.png, wrap::REPEAT, filter::LINEAR, format::RGB, type::UNSIGNED_BYTE" };
-	texture metallic{ "resources/textures/rustediron2_metallic.png, wrap::REPEAT, filter::LINEAR, format::RED, type::UNSIGNED_BYTE" };
-	texture roughness{ "resources/textures/rustediron2_roughness.png, wrap::REPEAT, filter::LINEAR, format::RED, type::UNSIGNED_BYTE" };
+    texture albedo{"resources/textures/rustediron2_albedo.png"};
+	texture normal{ "resources/textures/rustediron2_normal.png"};
+	texture metallic{ "resources/textures/rustediron2_metallic.png" };
+	texture roughness{ "resources/textures/rustediron2_roughness.png" };
 	
     std::vector<vertex> vertices;
     std::vector<unsigned int> indices;

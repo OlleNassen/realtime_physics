@@ -75,8 +75,7 @@ std::vector<std::string> faces
 };
 
 skybox::skybox()
-    : sky(faces, wrap::CLAMP_TO_EDGE,
-        filter::LINEAR, format::RGB)
+    : sky(faces)
 {
     vao.bind();
     vbo.data(sizeof(skybox_vertices), &skybox_vertices[0], GL_STATIC_DRAW);
