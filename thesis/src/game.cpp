@@ -61,40 +61,11 @@ game::game()
         std::bind(&camera::fast_pressed, &game_camera),
         std::bind(&camera::fast_released, &game_camera));
 
-	scene.attach_child(&pl);
-	scene.attach_child(&s_box);
-	scene.attach_child(&s_quad);
-
-	quad.set_texture("resources/images/brickwall.jpg");
-	normal_quad.set_texture("resources/images/brickwall.jpg");
 	light_pos = glm::vec3(50, 5, -15);
     phong_pos = glm::vec3(0, 10, 5);
 
     terrain.update(0.0f);
-    for(auto& checkpoint : current_race)
-    {
-		glm::vec3 v;
-		v.x = 20 + rand() % 246;
-		v.y = 20;
-		v.z = 20 + rand() % 246;
 
-		checkpoint =
-            sphere(terrain.calculate_camera_position(v, 2.5f), 2.5f);
-    }
-    icos.reserve(10 * sizeof(scene::icosahedron));
-
-	
-	/*struct cam3p
-	{
-
-		glm::vec3 PlayerPosition;
-		spherical_point CameraPosition;
-		mat4 View;
-		mat4 Projection;
-		int DX;
-		int DY;
-		bool First;
-	};*/
 	ThirdPersonCamera.First = true;
 	ThirdPersonCamera.CameraPosition.Radius = 5.0f;
 }
@@ -134,16 +105,12 @@ void game::render()
 	//game_camera.bind(phong_shader);
 	phong_shader.uniform("light_color", glm::vec3(1.f, 1.f, 1.f));
 	phong_shader.uniform("light_pos", phong_pos);
-	temp.render(phong_shader);
 
 	basic_shader.use();
 	BindCamera(&ThirdPersonCamera, &basic_shader);
 	//game_camera.bind(basic_shader);
 	light.bind(basic_shader);
 	scene.render(basic_shader);
-	quad.render(basic_shader);
-
-	backface.render(basic_shader);
 
 	terrain_shader.use();
 	BindCamera(&ThirdPersonCamera, &terrain_shader);
@@ -153,9 +120,6 @@ void game::render()
 	//Normal mapping
 	normal_shader.use();
 	BindCamera(&ThirdPersonCamera, &normal_shader);
-	//game_camera.bind(normal_shader);
-	normal_shader.uniform("light_pos", light_pos);
-	normal_quad.render(normal_shader);
 
 	skybox_shader.use();
 	BindCamera(&ThirdPersonCamera, &skybox_shader);
@@ -167,35 +131,18 @@ void game::render()
 
 	environment_shader.use();
 	BindCamera(&ThirdPersonCamera, &environment_shader);
-	//game_camera.bind(environment_shader);
-	environment.render(environment_shader);
 
 	basic_shader.use();
 	BindCamera(&ThirdPersonCamera, &basic_shader);
-	//game_camera.bind(basic_shader);
-	for (auto& ics : icos)
-	{
-		ics.render(basic_shader);
-	}
 
 	billboard_shader.use();
 	BindCamera(&ThirdPersonCamera, &billboard_shader);
-	//game_camera.bind(billboard_shader);
-	particles.render(billboard_shader);
 
 	//Animated model
 	anim.use();
 	BindCamera(&ThirdPersonCamera, &anim);
 	//game_camera.bind(anim);
 	temp_model.draw(anim);
-
-    if(current_race.lap() < 1)
-    {
-        p.use();
-		BindCamera(&ThirdPersonCamera, &p);
-		//game_camera.bind(p);
-        emitter.render(p);
-    }
 
 	//Text
     text_shader.use();
@@ -211,49 +158,11 @@ void game::update(float delta_time)
 {
 	glm::vec3 cam_pos = game_camera.get_pos();
 
-	for (auto& ico : icos)
-	{
-		ico.update(delta_time);
-	}
     terrain.update(delta_time);
     game_camera.move_on_terrain(terrain);
     game_camera.update(delta_time);
-	current_race.update(game_camera.get_pos());
 
     temp_model.update(delta_time);
-
-	particles.update(delta_time);
-
-	if (race_index == current_race.get_checkpoint() && race_index < 10)
-	{
-		if(!icos.empty())
-        {
-            icos.back().set_color(glm::vec3(0.1f, 1.0f, 0.1f));
-            icos.back().clear();
-        }
-        auto& p = current_race[race_index].position;
-		icos.emplace_back(p.x, p.y, p.z);
-        icos.back().attach_child(&emitter);
-		ui_text = std::to_string(race_index) + " / 10";
-		++race_index;
-	}
-
-    if(current_race.lap() > 0)
-    {
-        ui_text = "victory!";
-        color_timer += delta_time;
-        if (color_timer > 0.500)
-        {
-            color_timer = 0.0;
-            for (auto& obj : icos)
-            {
-                 obj.set_color(glm::vec3(
-                    (rand() % 255) / 255.f,
-                    (rand() % 255) / 255.f,
-                    (rand() % 255) / 255.f));
-            }
-		}
-	}
 
     seconds += delta_time;
     light_pos.x += glm::sin(seconds * 2.0f);

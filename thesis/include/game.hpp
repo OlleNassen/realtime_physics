@@ -9,20 +9,10 @@
 #include "shader.hpp"
 #include "directional_light.hpp"
 #include "node.hpp"
-#include "box.hpp"
 #include "skybox.hpp"
 #include "terrain.hpp"
-#include "quad.hpp"
-#include "point_light.hpp"
-#include "temp_box.hpp"
-#include "normal_quad.hpp"
-#include "particle_emitter.hpp"
 #include "animation.hpp"
-#include "quad_tess.hpp"
-#include "icosahedron.hpp"
-#include "race.hpp"
 #include "text.hpp"
-#include "particles.hpp"
 
 #include "cam3p.hpp"
 
@@ -66,29 +56,12 @@ private:
 	directional_light light;
 
 	anim::model temp_model;
-	anim::model ball_model;
-
-	scene::point_light pl;
-	scene::box s_box{20, 38, 40};
-	scene::quad s_quad{20, 38, 20};
 
 	scene::node scene;
 	scene::skybox sky;
-	scene::temp_box temp{0, 10, 0}; // PHONG cube
-	scene::temp_box environment{10, 2, 0};
-	scene::quad quad{0, 5, -20}; // phong
-	scene::normal_quad normal_quad{50, 5, -20};
-	scene::particle_emitter particles;
 	scene::terrain terrain{10, 10, 10};
-	scene::quad_tess quad_tess;
-	scene::quad backface{0, 0, -10};
-	scene::particles::emitter emitter;
 
 	text temp_text;
-
-	int race_index{0};
-    race current_race;
-	std::vector<scene::icosahedron> icos;
 
 	glm::vec3 light_pos;
 	glm::vec3 phong_pos;
