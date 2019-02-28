@@ -15,6 +15,7 @@
 #include "text.hpp"
 
 #include "cam3p.hpp"
+#include "physics.hpp"
 
 struct ball
 {
@@ -62,6 +63,8 @@ private:
 	scene::terrain terrain{10, 10, 10};
 
 	text temp_text;
+
+	world physics_world;
 
 	glm::vec3 light_pos;
 	glm::vec3 phong_pos;

@@ -22,16 +22,21 @@ bool sphere_plane(sphere* sphere, plane* plane)
 	return distance_squared < radius_squared;
 }
 
-void update(world* w)
+void update_verlet(world* w)
 {
 	float dt_squared = w->dt * w->dt;
+
+	glm::vec3 acceleration;
+	acceleration.x = 0.0f;
+	acceleration.y = 0.0f;// -9.82f;
+	acceleration.z = 0.0f;
 
 	glm::vec3 temp = w->player_position.position;
 
 	w->player_position.position =
 		2.0f * w->player_position.position
 		- w->player_position.old_position +
-		w->player_position.acceleration * w->dt * w->dt;
+		acceleration * w->dt * w->dt;
 
 	w->player_position.old_position = temp;
 

@@ -34,6 +34,6 @@ float magnitude_squared(glm::vec3* v);
 glm::vec3 closest_point(plane* plane, glm::vec3* point);
 bool sphere_plane(sphere* sphere, plane* plane);
 
-void update(world* w);
+void update_verlet(world* w);
 
 #endif

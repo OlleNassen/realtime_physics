@@ -68,6 +68,14 @@ game::game()
 
 	ThirdPersonCamera.First = true;
 	ThirdPersonCamera.CameraPosition.Radius = 5.0f;
+
+	physics_world.player_position.old_position.x = 35.0f;
+	physics_world.player_position.old_position.y = 35.0f;
+	physics_world.player_position.old_position.z = 35.0f;
+
+	physics_world.player_position.position.x = 35.0f;
+	physics_world.player_position.position.y = 35.0f;
+	physics_world.player_position.position.z = 35.0f;
 }
 
 void game::run()
@@ -138,15 +146,16 @@ void game::update(float delta_time)
 	light_pos.y += glm::sin(seconds * 0.7f);
 	phong_pos.x += sin(seconds * 2.0f) / 10.0f;
 
+	update_verlet(&physics_world);	
+	temp_model.set_position(physics_world.player_position.position);
+	
 	double MX, MY;
 	glfwGetCursorPos(game_window.glfw_window, &MX, &MY);
-	ThirdPersonCamera.PlayerPosition = temp_model.get_position();
+	ThirdPersonCamera.PlayerPosition = physics_world.player_position.position;
 
 	UpdateCamera(&ThirdPersonCamera, (int)MX, (int)MY,
 		(bool)glfwGetKey(game_window.glfw_window, GLFW_KEY_W),
 		(bool)glfwGetKey(game_window.glfw_window, GLFW_KEY_A),
 		(bool)glfwGetKey(game_window.glfw_window, GLFW_KEY_S),
 		(bool)glfwGetKey(game_window.glfw_window, GLFW_KEY_D));
-
-	
 }
