@@ -8,7 +8,7 @@ float magnitude_squared(glm::vec3* v)
 glm::vec3 closest_point(plane* plane, glm::vec3* point)
 {
 	float dot = glm::dot(plane->normal, *point);
-	float distance = dot - plane->distance;
+	float distance = dot - plane->position.y * 0.1f;
 	return *point - plane->normal * distance;
 }
 

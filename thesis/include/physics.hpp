@@ -2,6 +2,7 @@
 #define PHYSICS_HPP
 
 #include <glm/glm.hpp>
+#include <vector>
 
 struct point
 {
