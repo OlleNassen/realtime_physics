@@ -1,5 +1,4 @@
 #include "physics.hpp"
-#include <iostream>
 
 float magnitude_squared(glm::vec3* v)
 {
@@ -52,8 +51,8 @@ void update_verlet(world* w)
 
 	//resolve collisions
 	w->player_collider.position = w->player_position.position;
-	
-	if (sphere_plane(&w->player_collider, &w->planes[static_cast<int>(w->player_position.position.x + w->player_position.position.z)]))
+
+	if (sphere_plane(&w->player_collider, &w->planes[static_cast<int>(w->player_position.position.x + w->player_position.position.z * 256)]))
 	{
 		w->player_position.position = temp_position;
 		w->player_position.rotation = temp_rotation;
