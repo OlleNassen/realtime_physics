@@ -53,7 +53,7 @@ private:
 
 	scene::node scene;
 	scene::skybox sky;
-	scene::terrain terrain{10, 10, 10};
+	scene::terrain terrain{0, 0, 0};
 
 	text temp_text;
 
