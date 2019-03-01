@@ -69,11 +69,11 @@ game::game()
 	ThirdPersonCamera.First = true;
 	ThirdPersonCamera.CameraPosition.Radius = 5.0f;
 
-	physics_world.player_position.old_position.x = 35.0f;
+	physics_world.player_position.old_position.x = 90.0f;
 	physics_world.player_position.old_position.y = 70.0f;
 	physics_world.player_position.old_position.z = 35.0f;
 
-	physics_world.player_position.position.x = 35.0f;
+	physics_world.player_position.position.x = 90.0f;
 	physics_world.player_position.position.y = 70.0f;
 	physics_world.player_position.position.z = 35.0f;
 	

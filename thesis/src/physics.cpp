@@ -8,9 +8,8 @@ float magnitude_squared(glm::vec3* v)
 
 glm::vec3 closest_point(plane* plane, glm::vec3* point)
 {
-	std::cout << plane->position.x << " "<<plane->position.y <<" "<< plane->position.z<<'\n';
 	float dot = glm::dot(plane->normal, *point);
-	float distance = dot - plane->position.y;
+	float distance = dot - glm::dot(plane->position, plane->normal);
 	return *point - plane->normal * distance;
 }
 
@@ -54,7 +53,7 @@ void update_verlet(world* w)
 	//resolve collisions
 	w->player_collider.position = w->player_position.position;
 	
-	if (sphere_plane(&w->player_collider, &w->planes[static_cast<int>(w->player_position.position.x + w->player_position.position.z * 512)]))
+	if (sphere_plane(&w->player_collider, &w->planes[static_cast<int>(w->player_position.position.x + w->player_position.position.z)]))
 	{
 		w->player_position.position = temp_position;
 		w->player_position.rotation = temp_rotation;
