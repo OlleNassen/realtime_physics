@@ -170,4 +170,6 @@ void game::update(float delta_time)
 		(bool)glfwGetKey(game_window.glfw_window, GLFW_KEY_A),
 		(bool)glfwGetKey(game_window.glfw_window, GLFW_KEY_S),
 		(bool)glfwGetKey(game_window.glfw_window, GLFW_KEY_D));
+
+	physics_world.player_position.position = ThirdPersonCamera.PlayerPosition;
 }

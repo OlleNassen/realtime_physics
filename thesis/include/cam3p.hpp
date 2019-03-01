@@ -105,7 +105,7 @@ static void UpdateCamera(cam3p* State, int MX, int MY, bool UpB, bool LeftB, boo
 	glm::vec3 right = glm::normalize(glm::cross(forward, up));
 	up = glm::cross(right, forward);
 
-	float speed = 10.0f * Timestep;
+	float speed = 5.0f * Timestep;
 	float forward_direction = 0.0f;
 	float right_direction = 0.0f;
 
@@ -115,9 +115,9 @@ static void UpdateCamera(cam3p* State, int MX, int MY, bool UpB, bool LeftB, boo
 	if (RightB) right_direction -= speed;
 
 	glm::vec3* Player = &State->PlayerPosition;
-	Player->x += forward_direction * forward.x + right_direction * right.x;
-	Player->y += forward_direction * forward.y + right_direction * right.y;
-	Player->z += forward_direction * forward.z + right_direction * right.z;
+	Player->x -= forward_direction * forward.x + right_direction * right.x;
+	Player->y -= forward_direction * forward.y + right_direction * right.y;
+	Player->z -= forward_direction * forward.z + right_direction * right.z;
 
 	// stuff
 	
