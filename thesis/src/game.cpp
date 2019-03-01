@@ -76,13 +76,16 @@ game::game()
 	physics_world.player_position.position.x = 35.0f;
 	physics_world.player_position.position.y = 35.0f;
 	physics_world.player_position.position.z = 35.0f;
-
-	physics_world.planes[0].normal.x = 0.0f;
-	physics_world.planes[0].normal.y = 1.0f;
-	physics_world.planes[0].normal.z = 0.0f;
-	physics_world.planes[0].distance = 0.0f;
 	
 	physics_world.player_collider.radius = 2.0f;
+
+	for (auto& vertex : terrain.vertices)
+	{
+		plane p;
+		p.position = vertex.position;
+		p.normal = vertex.normal;
+		physics_world.planes.emplace_back(p);
+	}
 }
 
 void game::run()

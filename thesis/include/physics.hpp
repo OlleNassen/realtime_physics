@@ -20,8 +20,8 @@ struct sphere
 
 struct plane
 {
+	glm::vec3 position;
 	glm::vec3 normal;
-	float distance;
 };
 
 struct world
@@ -29,7 +29,7 @@ struct world
 	float dt;
 	point player_position;
 	sphere player_collider;
-	plane planes[100];
+	std::vector<plane> planes;
 };
 
 float magnitude_squared(glm::vec3* v);

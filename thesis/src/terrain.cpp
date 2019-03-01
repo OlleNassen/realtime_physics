@@ -9,13 +9,6 @@
 namespace scene
 {
 
-struct terrain_vertex
-{
-    glm::vec3 position;
-    glm::vec3 normal;
-    glm::vec2 texture;
-};
-
 terrain::terrain(float x, float y, float z)
 	: node(x, y, z)
     , height_offset(y)
@@ -26,8 +19,9 @@ terrain::terrain(float x, float y, float z)
     heights.resize(end - begin);
     std::copy(begin, end, heights.begin());
     stbi_image_free(begin);
+	
+	vertices.resize(heights.size());
 
-	std::vector<terrain_vertex> vertices(heights.size());
 	for (auto i = 0u; i < vertices.size(); ++i)
 	{
         glm::vec2 v{i % width, i / height};

@@ -8,6 +8,13 @@
 namespace scene
 {
 
+struct terrain_vertex
+{
+	glm::vec3 position;
+	glm::vec3 normal;
+	glm::vec2 texture;
+};
+
 class terrain : public node
 {
 public:
@@ -17,6 +24,8 @@ public:
         const glm::vec3& world_position, float position_offset) const;
 
 
+
+	std::vector<terrain_vertex> vertices;
 private:
 	std::vector<int> heights;
 	int draw_count{0};
