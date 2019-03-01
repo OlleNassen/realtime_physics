@@ -247,6 +247,8 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\physics.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='unity_debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='unity_debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="src\shader.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='unity_debug|Win32'">true</ExcludedFromBuild>

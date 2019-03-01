@@ -52,23 +52,18 @@ void update_verlet(world* w)
 	//resolve collisions
 	w->player_collider.position = w->player_position.position;
 
+	w->player_position.old_position = temp_position;
+	w->player_position.old_rotation = temp_rotation;
 
 	int id = static_cast<int>(w->player_position.position.x + w->player_position.position.z * 256);
 	if (sphere_plane(&w->player_collider, &w->planes[id]))
 	{
-		glm::vec3 new_pos = w->player_position.position;
-		
-		new_pos += glm::normalize(glm::reflect(
-			temp_position - new_pos,
-			w->planes[id].normal));
+		glm::vec3 new_pos = w->player_position.old_position + 
+			glm::reflect(
+			w->player_position.position - w->player_position.old_position,
+			w->planes[id].normal);
 
-		w->player_position.old_position = new_pos;
-		w->player_position.old_rotation = new_pos;
+		w->player_position.position = new_pos;
+		w->player_position.rotation = new_pos;
 	}
-	else
-	{
-		w->player_position.old_position = temp_position;
-		w->player_position.old_rotation = temp_rotation;
-	}
-
 }
