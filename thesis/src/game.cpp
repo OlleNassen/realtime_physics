@@ -87,7 +87,7 @@ game::game()
 		physics_world.planes.emplace_back(p);
 	}
 
-	for (int i = 0; i < terrain.vertices.size() - (256 + 1); i++)
+	for (unsigned int i = 0; i < terrain.vertices.size() - (256 + 1); i++)
 	{
 		triangle a;
 		a.x = terrain.vertices[i].position;

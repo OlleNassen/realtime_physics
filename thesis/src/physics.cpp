@@ -24,7 +24,24 @@ bool sphere_plane(sphere* sphere, plane* plane)
 
 bool sphere_triangle(sphere* sphere, triangle* triangle)
 {
-	return true;
+	glm::vec3 A = triangle->x - sphere->position;
+	glm::vec3 B = triangle->y - sphere->position;
+	glm::vec3 C = triangle->z - sphere->position;
+
+	float aa = glm::dot(A, A);
+	float ab = glm::dot(A, B);
+	float ac = glm::dot(A, C);
+	float bb = glm::dot(B, B);
+	float bc = glm::dot(B, C);
+	float cc = glm::dot(C, C);
+	float rr = sphere->radius * sphere->radius;
+
+	bool separateda = (aa > rr) & (ab > aa) & (ac > aa);
+	bool separatedb = (bb > rr) & (ab > bb) & (bc > bb);
+	bool separatedc = (cc > rr) & (ac > cc) & (bc > cc);
+	bool separated = separateda | separatedb | separatedc;
+
+	return separated;
 }
 
 void update_verlet(world* w)
@@ -60,15 +77,11 @@ void update_verlet(world* w)
 	w->player_position.old_position = temp_position;
 	w->player_position.old_rotation = temp_rotation;
 
-	int id = static_cast<int>(w->player_position.position.x + w->player_position.position.z * 256);
-	if (sphere_plane(&w->player_collider, &w->planes[id]))
+	for (auto& triangle : w->triangles)
 	{
-		glm::vec3 new_pos = w->player_position.old_position + 
-			glm::reflect(
-			w->player_position.position - w->player_position.old_position,
-			w->planes[id].normal);
-
-		w->player_position.position = new_pos;
-		w->player_position.rotation = new_pos;
+		if (sphere_triangle(&w->player_collider, &triangle))
+		{
+			w->player_collider.position = triangle.x;
+		}
 	}
 }
