@@ -44,6 +44,55 @@ bool sphere_triangle(sphere* sphere, triangle* triangle)
 	return separated;
 }
 
+typedef glm::vec3 Point;
+Point ClosestPtPointTriangle(Point p, Point a, Point b, Point c)
+{
+	glm::vec3 ab = b - a;
+	glm::vec3 ac = c - a;
+	glm::vec3 bc = c - b;
+
+	float snom = glm::dot(p - a, ab);
+	float sdenom = glm::dot(p - b, a - c);
+	float tnom = glm::dot(p - a, c);
+	float tdenom = glm::dot(p - c, a - c);
+
+	if (snom <= 0.0f && tnom <= 0.0f) return a;
+
+	float unom = glm::dot(p - b, bc);
+	float udenom = glm::dot(p - c, b - c);
+
+	if (sdenom <= 0.0f && unom <= 0.0f) return b;
+	if (tdenom <= 0.0f && udenom <= 0.0f) return c;
+
+	glm::vec3 n = glm::cross(b - a, c - a);
+	float vc = glm::dot(n, glm::cross(a - p, b - p));
+
+	if (vc <= 0.0f && snom >= 0.0f && sdenom >= 0.0f)
+		return a + snom / (snom + sdenom) * ab;
+
+	float va = glm::dot(n, glm::cross(b - p, c - p));
+
+	if (va <= 0.0f && unom >= 0.0f && udenom >= 0.0f)
+		return b + unom / (unom + udenom) * bc;
+
+	float vb = glm::dot(n, glm::cross(c - p, a - p));
+
+	if (vb <= 0.0f && tnom >= 0.0f && tdenom >= 0.0f)
+		return a + tnom / (tnom + tdenom) * ac;
+
+	float u = va / (va + vb + vc);
+	float v = vb / (va + vb + vc);
+	float w = 1.0f - u - v; // = vc / (va + vb + vc)
+	return u * a + v * b + w * c;
+}
+
+int TestSphereTriangle(sphere s, Point a, Point b, Point c, Point& p)
+{
+	p = ClosestPtPointTriangle(s.position, a, b, c);
+	glm::vec3 v = p - s.position;
+	return glm::dot(v, v) <= s.radius * s.radius;
+}
+
 void update_verlet(world* w)
 {
 	float dt_squared = w->dt * w->dt;
@@ -79,9 +128,10 @@ void update_verlet(world* w)
 
 	for (auto& triangle : w->triangles)
 	{
-		if (sphere_triangle(&w->player_collider, &triangle))
+		glm::vec3 closest;
+		if (TestSphereTriangle(w->player_collider, triangle.x, triangle.y, triangle.z, closest))
 		{
-			w->player_collider.position = triangle.x;
+			w->player_position.position = triangle.x;
 		}
 	}
 }
