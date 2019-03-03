@@ -25,12 +25,20 @@ struct plane
 	glm::vec3 normal;
 };
 
+struct triangle
+{
+	glm::vec3 x;
+	glm::vec3 y;
+	glm::vec3 z;
+};
+
 struct world
 {
 	float dt;
 	point player_position;
 	sphere player_collider;
 	std::vector<plane> planes;
+	std::vector<triangle> triangles;
 };
 
 float magnitude_squared(glm::vec3* v);

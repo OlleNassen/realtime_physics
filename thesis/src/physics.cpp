@@ -22,6 +22,11 @@ bool sphere_plane(sphere* sphere, plane* plane)
 	return distance_squared < radius_squared;
 }
 
+bool sphere_triangle(sphere* sphere, triangle* triangle)
+{
+
+}
+
 void update_verlet(world* w)
 {
 	float dt_squared = w->dt * w->dt;

@@ -86,6 +86,23 @@ game::game()
 		p.normal = vertex.normal;
 		physics_world.planes.emplace_back(p);
 	}
+
+	for (int i = 0; i < terrain.vertices.size() - (256 + 1); i++)
+	{
+		triangle a;
+		a.x = terrain.vertices[i].position;
+		a.y = terrain.vertices[i + 256].position;
+		a.z = terrain.vertices[i + 1].position;
+
+		triangle b;
+		b.x = terrain.vertices[i].position;
+		b.y = terrain.vertices[i + 256 + 1].position;
+		b.z = terrain.vertices[i + 1].position;
+
+		physics_world.triangles.emplace_back(a);
+		physics_world.triangles.emplace_back(b);
+	}
+
 }
 
 void game::run()
