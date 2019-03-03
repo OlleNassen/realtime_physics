@@ -24,7 +24,7 @@ bool sphere_plane(sphere* sphere, plane* plane)
 
 bool sphere_triangle(sphere* sphere, triangle* triangle)
 {
-
+	return true;
 }
 
 void update_verlet(world* w)
