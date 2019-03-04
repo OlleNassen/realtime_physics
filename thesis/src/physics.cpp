@@ -85,7 +85,8 @@ void update_verlet(world* w)
 	{
 		if (!sphere_triangle(&w->player_collider, &triangle))
 		{
-			std::cout << w->player_collider.position.x << " " << w->player_collider.position.y << " " << w->player_collider.position.z << '\n';
+			w->player_position.position = w->player_position.old_position;
+			//std::cout << w->player_position.position.x << " " << w->player_position.position.y << " " << w->player_position.position.z << '\n';
 		}
 	}
 }
