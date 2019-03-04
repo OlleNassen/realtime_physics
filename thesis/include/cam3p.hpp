@@ -158,7 +158,7 @@ static void UpdateCamera(cam3p* State, int MX, int MY, bool UpB, bool LeftB, boo
 	State->View[3][1] = -dot(Up, Position);
 	State->View[3][2] = dot(Forward, Position);
 
-	State->Projection = CreateProjection(pi32 * 0.5f, 16.0f / 9.0f, 0.1f, 100.0f);
+	State->Projection = CreateProjection(pi32 * 0.5f, 16.0f / 9.0f, 0.1f, 10000.0f);
 }
 
 #endif

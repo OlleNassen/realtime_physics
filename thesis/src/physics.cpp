@@ -1,5 +1,4 @@
 #include "physics.hpp"
-#include <iostream>
 
 float magnitude_squared(glm::vec3* v)
 {
@@ -86,7 +85,6 @@ void update_verlet(world* w)
 		if (!sphere_triangle(&w->player_collider, &triangle))
 		{
 			w->player_position.position = w->player_position.old_position;
-			//std::cout << w->player_position.position.x << " " << w->player_position.position.y << " " << w->player_position.position.z << '\n';
 		}
 	}
 }
