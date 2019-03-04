@@ -3,6 +3,8 @@
 
 #include <glm/glm.hpp>
 #include <vector>
+#include "shader.hpp"
+#include "cam3p.hpp"
 
 struct point
 {
@@ -33,6 +35,10 @@ struct world
 	sphere player_collider;
 	std::vector<triangle> triangles;
 };
+
+
+
+void draw(world* w, const shader& shader);
 
 float magnitude_squared(glm::vec3* v);
 

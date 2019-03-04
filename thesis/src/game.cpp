@@ -129,7 +129,6 @@ void game::render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glViewport(0, 0, width, height);
 
-
 	terrain_shader.use();
 	BindCamera(&ThirdPersonCamera, &terrain_shader);
 	//game_camera.bind(terrain_shader);
@@ -148,6 +147,10 @@ void game::render()
 	BindCamera(&ThirdPersonCamera, &anim);
 	//game_camera.bind(anim);
 	temp_model.draw(anim);
+
+	triangle_shader.use();
+	BindCamera(&ThirdPersonCamera, &triangle_shader);
+	draw(&physics_world, triangle_shader);
 
 	game_window.swap_buffers();
 }

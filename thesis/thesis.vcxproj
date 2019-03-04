@@ -454,6 +454,8 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <None Include="resources\shaders\lol.fs" />
+    <None Include="resources\shaders\lol.vs" />
     <None Include="shaders\backface.fs" />
     <None Include="shaders\backface.vs" />
     <None Include="shaders\billboard.fs" />

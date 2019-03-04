@@ -1,4 +1,6 @@
 #include "physics.hpp"
+#include "GL/glew.h"
+#include <iostream>
 
 float magnitude_squared(glm::vec3* v)
 {
@@ -45,6 +47,30 @@ bool sphere_triangle(sphere* sphere, triangle* triangle)
 	bool separated = sep1 | sep2 | sep3 | sep4 | sep5 | sep6 | sep7;
 
 	return separated;
+}
+
+void draw(world* w, const shader& shader)
+{
+	static bool run_once = false;
+	static unsigned int m_vao;
+	static unsigned int m_vbo;
+
+	if (!run_once)
+	{
+		glGenVertexArrays(1, &m_vao);
+		glBindVertexArray(m_vao);
+		glGenBuffers(1, &m_vbo);
+		glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(w->triangles), &w->triangles[0], GL_STATIC_DRAW);
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, nullptr);
+		run_once = true;
+	}
+
+	shader.use();
+	shader.uniform("model", glm::mat4(1.f));
+	glBindVertexArray(m_vao);
+	glDrawArrays(GL_TRIANGLES, 0, w->triangles.size());
 }
 
 void update_verlet(world* w)
