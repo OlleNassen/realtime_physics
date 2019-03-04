@@ -84,7 +84,15 @@ void update_verlet(world* w)
 	{
 		if (!sphere_triangle(&w->player_collider, &triangle))
 		{
-			w->player_position.position = w->player_position.old_position;
+			glm::vec3 a = triangle.y - triangle.x;
+			glm::vec3 b = triangle.z - triangle.x;
+
+			glm::vec3 new_pos = w->player_position.old_position +
+				glm::reflect(
+					w->player_position.position - w->player_position.old_position,
+					glm::normalize(glm::cross(a, b)));
+
+			w->player_position.position = new_pos;
 		}
 	}
 }
