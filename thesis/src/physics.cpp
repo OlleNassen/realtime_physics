@@ -1,25 +1,9 @@
 #include "physics.hpp"
+#include <iostream>
 
 float magnitude_squared(glm::vec3* v)
 {
 	return glm::dot(*v, *v);
-}
-
-glm::vec3 closest_point(plane* plane, glm::vec3* point)
-{
-	float dot = glm::dot(plane->normal, *point);
-	float distance = dot - glm::dot(plane->position, plane->normal);
-	return *point - plane->normal * distance;
-}
-
-bool sphere_plane(sphere* sphere, plane* plane)
-{
-	glm::vec3 closest = closest_point(plane, &sphere->position);
-	float distance_squared =
-		magnitude_squared(&(sphere->position - closest));
-
-	float radius_squared = sphere->radius * sphere->radius;
-	return distance_squared < radius_squared;
 }
 
 bool sphere_triangle(sphere* sphere, triangle* triangle)
@@ -27,70 +11,41 @@ bool sphere_triangle(sphere* sphere, triangle* triangle)
 	glm::vec3 A = triangle->x - sphere->position;
 	glm::vec3 B = triangle->y - sphere->position;
 	glm::vec3 C = triangle->z - sphere->position;
-
-	float aa = glm::dot(A, A);
-	float ab = glm::dot(A, B);
-	float ac = glm::dot(A, C);
-	float bb = glm::dot(B, B);
-	float bc = glm::dot(B, C);
-	float cc = glm::dot(C, C);
 	float rr = sphere->radius * sphere->radius;
-
-	bool separateda = (aa > rr) & (ab > aa) & (ac > aa);
-	bool separatedb = (bb > rr) & (ab > bb) & (bc > bb);
-	bool separatedc = (cc > rr) & (ac > cc) & (bc > cc);
-	bool separated = separateda | separatedb | separatedc;
+	glm::vec3 V = cross(B - A, C - A);
+	float d = dot(A, V);
+	float e = dot(V, V);
+	bool sep1 = d * d > rr * e;
+	float aa = dot(A, A);
+	float ab = dot(A, B);
+	float ac = dot(A, C);
+	float bb = dot(B, B);
+	float bc = dot(B, C);
+	float cc = dot(C, C);
+	bool sep2 = (aa > rr) & (ab > aa) & (ac > aa);
+	bool sep3 = (bb > rr) & (ab > bb) & (bc > bb);
+	bool sep4 = (cc > rr) & (ac > cc) & (bc > cc);
+	glm::vec3 AB = B - A;
+	glm::vec3 BC = C - B;
+	glm::vec3 CA = A - C;
+	float d1 = ab - aa;
+	float d2 = bc - bb;
+	float d3 = ac - cc;
+	float e1 = dot(AB, AB);
+	float e2 = dot(BC, BC);
+	float e3 = dot(CA, CA);
+	glm::vec3 Q1 = A * e1 - d1 * AB;
+	glm::vec3 Q2 = B * e2 - d2 * BC;
+	glm::vec3 Q3 = C * e3 - d3 * CA;
+	glm::vec3 QC = C * e1 - Q1;
+	glm::vec3 QA = A * e2 - Q2;
+	glm::vec3 QB = B * e3 - Q3;
+	bool sep5 = (dot(Q1, Q1) > rr * e1 * e1) & (dot(Q1, QC) > 0);
+	bool sep6 = (dot(Q2, Q2) > rr * e2 * e2) & (dot(Q2, QA) > 0);
+	bool sep7 = (dot(Q3, Q3) > rr * e3 * e3) & (dot(Q3, QB) > 0);
+	bool separated = sep1 | sep2 | sep3 | sep4 | sep5 | sep6 | sep7;
 
 	return separated;
-}
-
-typedef glm::vec3 Point;
-Point ClosestPtPointTriangle(Point p, Point a, Point b, Point c)
-{
-	glm::vec3 ab = b - a;
-	glm::vec3 ac = c - a;
-	glm::vec3 bc = c - b;
-
-	float snom = glm::dot(p - a, ab);
-	float sdenom = glm::dot(p - b, a - c);
-	float tnom = glm::dot(p - a, c);
-	float tdenom = glm::dot(p - c, a - c);
-
-	if (snom <= 0.0f && tnom <= 0.0f) return a;
-
-	float unom = glm::dot(p - b, bc);
-	float udenom = glm::dot(p - c, b - c);
-
-	if (sdenom <= 0.0f && unom <= 0.0f) return b;
-	if (tdenom <= 0.0f && udenom <= 0.0f) return c;
-
-	glm::vec3 n = glm::cross(b - a, c - a);
-	float vc = glm::dot(n, glm::cross(a - p, b - p));
-
-	if (vc <= 0.0f && snom >= 0.0f && sdenom >= 0.0f)
-		return a + snom / (snom + sdenom) * ab;
-
-	float va = glm::dot(n, glm::cross(b - p, c - p));
-
-	if (va <= 0.0f && unom >= 0.0f && udenom >= 0.0f)
-		return b + unom / (unom + udenom) * bc;
-
-	float vb = glm::dot(n, glm::cross(c - p, a - p));
-
-	if (vb <= 0.0f && tnom >= 0.0f && tdenom >= 0.0f)
-		return a + tnom / (tnom + tdenom) * ac;
-
-	float u = va / (va + vb + vc);
-	float v = vb / (va + vb + vc);
-	float w = 1.0f - u - v; // = vc / (va + vb + vc)
-	return u * a + v * b + w * c;
-}
-
-int TestSphereTriangle(sphere s, Point a, Point b, Point c, Point& p)
-{
-	p = ClosestPtPointTriangle(s.position, a, b, c);
-	glm::vec3 v = p - s.position;
-	return glm::dot(v, v) <= s.radius * s.radius;
 }
 
 void update_verlet(world* w)
@@ -128,10 +83,9 @@ void update_verlet(world* w)
 
 	for (auto& triangle : w->triangles)
 	{
-		glm::vec3 closest;
-		if (TestSphereTriangle(w->player_collider, triangle.x, triangle.y, triangle.z, closest))
+		if (!sphere_triangle(&w->player_collider, &triangle))
 		{
-			w->player_position.position = triangle.x;
+			std::cout << w->player_collider.position.x << " " << w->player_collider.position.y << " " << w->player_collider.position.z << '\n';
 		}
 	}
 }

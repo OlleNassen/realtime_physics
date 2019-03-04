@@ -19,12 +19,6 @@ struct sphere
 	float radius;
 };
 
-struct plane
-{
-	glm::vec3 position;
-	glm::vec3 normal;
-};
-
 struct triangle
 {
 	glm::vec3 x;
@@ -37,13 +31,10 @@ struct world
 	float dt;
 	point player_position;
 	sphere player_collider;
-	std::vector<plane> planes;
 	std::vector<triangle> triangles;
 };
 
 float magnitude_squared(glm::vec3* v);
-glm::vec3 closest_point(plane* plane, glm::vec3* point);
-bool sphere_plane(sphere* sphere, plane* plane);
 
 void update_verlet(world* w);
 

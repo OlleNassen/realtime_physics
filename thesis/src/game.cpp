@@ -79,14 +79,6 @@ game::game()
 	
 	physics_world.player_collider.radius = 2.0f;
 
-	for (auto& vertex : terrain.vertices)
-	{
-		plane p;
-		p.position = vertex.position;
-		p.normal = vertex.normal;
-		physics_world.planes.emplace_back(p);
-	}
-
 	for (unsigned int i = 0; i < terrain.vertices.size() - (256 + 1); i++)
 	{
 		triangle a;
