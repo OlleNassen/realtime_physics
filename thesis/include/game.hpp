@@ -45,7 +45,7 @@ private:
 	shader anim{"resources/shaders/anim.vs", "resources/shaders/anim.fs"};
 	shader terrain_shader{"resources/shaders/terrain.vs", "resources/shaders/terrain.fs"};
 	shader text_shader{"resources/shaders/text.vs", "resources/shaders/text.fs"};
-	shader triangle_shader = shader("resources/shaders/lol.vs", "resources/shaders/lol.fs");
+	shader triangle_shader{"resources/shaders/lol.vs", "resources/shaders/lol.fs"};
 
 	camera game_camera;
 	directional_light light;

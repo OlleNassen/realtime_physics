@@ -22,9 +22,6 @@ public:
 
 	glm::vec3 calculate_camera_position(
         const glm::vec3& world_position, float position_offset) const;
-
-
-
 	std::vector<terrain_vertex> vertices;
 private:
 	std::vector<int> heights;

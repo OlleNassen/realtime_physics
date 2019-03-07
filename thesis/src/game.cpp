@@ -80,19 +80,19 @@ game::game()
 	physics_world.player_collider.radius = 2.0f;
 
 	const int width = 256;
-	for (unsigned int i = 0; i < terrain.vertices.size() - (256 + 1); i++)
+	for (unsigned int i = 0; i < terrain.vertices.size() - (width + 1); i++)
 	{
-		if (i % width != width)
+		if (i % width != width - 1)
 		{
 			triangle a;
-			a.x = terrain.vertices[i].position * glm::vec3(1,1,3);
-			a.y = terrain.vertices[i + width].position* glm::vec3(1, 1, 3);
-			a.z = terrain.vertices[i + 1].position* glm::vec3(1, 1, 3);
+			a.x = terrain.vertices[i].position;
+			a.y = terrain.vertices[i + width].position;
+			a.z = terrain.vertices[i + 1].position;
 
 			triangle b;
-			b.x = terrain.vertices[i].position * glm::vec3(1, 1, 3);
-			b.y = terrain.vertices[i + width + 1].position * glm::vec3(1, 1, 3);
-			b.z = terrain.vertices[i + 1].position * glm::vec3(1, 1, 3);
+			b.x = terrain.vertices[i].position;
+			b.y = terrain.vertices[i + width + 1].position;
+			b.z = terrain.vertices[i + 1].position;
 
 			physics_world.triangles.emplace_back(a);
 			physics_world.triangles.emplace_back(b);
@@ -136,7 +136,6 @@ void game::render()
 
 	terrain_shader.use();
 	BindCamera(&ThirdPersonCamera, &terrain_shader);
-	//game_camera.bind(terrain_shader);
 	terrain.render(terrain_shader);
 
 	triangle_shader.use();
@@ -145,7 +144,6 @@ void game::render()
 
 	skybox_shader.use();
 	BindCamera(&ThirdPersonCamera, &skybox_shader);
-	//game_camera.bind(skybox_shader);
 	skybox_shader.uniform("view",
         glm::mat4(glm::mat3(game_camera.get_view())));
 
