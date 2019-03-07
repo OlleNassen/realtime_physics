@@ -104,7 +104,7 @@ game::game()
 
 void game::run()
 {	
-	double timestep = 1.0 / 60.0;
+	double timestep = 1.0 / 120.0;
 	double last_time = glfwGetTime();
 	double delta_time = 0.0;
 
@@ -134,9 +134,9 @@ void game::render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glViewport(0, 0, width, height);
 
-	triangle_shader.use();
-	BindCamera(&ThirdPersonCamera, &triangle_shader);
-	draw(&physics_world, triangle_shader);
+	//triangle_shader.use();
+	//BindCamera(&ThirdPersonCamera, &triangle_shader);
+	//draw(&physics_world, triangle_shader);
 
 	terrain_shader.use();
 	BindCamera(&ThirdPersonCamera, &terrain_shader);
@@ -160,19 +160,6 @@ void game::render()
 
 void game::update(float delta_time)
 {
-	glm::vec3 cam_pos = game_camera.get_pos();
-
-    terrain.update(delta_time);
-    game_camera.move_on_terrain(terrain);
-    game_camera.update(delta_time);
-
-    temp_model.update(delta_time);
-
-    seconds += delta_time;
-    light_pos.x += glm::sin(seconds * 2.0f);
-	light_pos.y += glm::sin(seconds * 0.7f);
-	phong_pos.x += sin(seconds * 2.0f) / 10.0f;
-
 	update_verlet(&physics_world);	
 	temp_model.set_position(physics_world.player_position.position);
 	

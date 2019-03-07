@@ -105,7 +105,7 @@ static void UpdateCamera(cam3p* State, int MX, int MY, bool UpB, bool LeftB, boo
 	glm::vec3 right = glm::normalize(glm::cross(forward, up));
 	up = glm::cross(right, forward);
 
-	float speed = 5.0f * Timestep;
+	float speed = Timestep;
 	float forward_direction = 0.0f;
 	float right_direction = 0.0f;
 
