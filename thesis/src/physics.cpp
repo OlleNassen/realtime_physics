@@ -92,7 +92,7 @@ void update_verlet(world* w)
 
 	acceleration.y = 0.0f;
 	
-	//Rotation	
+	//Rotation 
 	glm::vec3 temp_rotation = w->player_position.rotation;
 
 	w->player_position.rotation =
@@ -113,10 +113,12 @@ void update_verlet(world* w)
 			glm::vec3 a = triangle.y - triangle.x;
 			glm::vec3 b = triangle.z - triangle.x;
 
+			float e = 0.1f;
+
 			glm::vec3 new_pos = w->player_position.old_position +
-				glm::reflect(
-					w->player_position.position - w->player_position.old_position,
-					glm::normalize(glm::cross(a, b)));
+				(e * glm::reflect(
+					glm::normalize(w->player_position.position - w->player_position.old_position),
+					glm::normalize(glm::cross(a, b))));
 
 			w->player_position.position = new_pos;
 		}
