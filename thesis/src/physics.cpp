@@ -64,7 +64,6 @@ void draw(world* w, const shader& shader)
 		glBufferData(GL_ARRAY_BUFFER, sizeof(triangle) * w->triangles.size(), &w->triangles[0], GL_STATIC_DRAW);
 		glEnableVertexAttribArray(0);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), nullptr);
-		//model[0] = -model[0];
 
 		run_once = true;
 	}

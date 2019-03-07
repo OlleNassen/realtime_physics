@@ -148,7 +148,7 @@ void terrain::update_current(float delta_time,
 void terrain::render_current(const shader& shader,
     const glm::mat4& world_transform) const
 {
-	shader.uniform("model", world_transform);
+	shader.uniform("model", glm::mat4(1.f));
 	grass.uniform(shader, "diffuse", 0);
 	slope.uniform(shader, "diffuse2", 1);
 	rock.uniform(shader, "diffuse3", 2);

@@ -90,7 +90,7 @@ game::game()
 			a.z = terrain.vertices[i + 1].position;
 
 			triangle b;
-			b.x = terrain.vertices[i].position;
+			b.x = terrain.vertices[i + width].position;
 			b.y = terrain.vertices[i + width + 1].position;
 			b.z = terrain.vertices[i + 1].position;
 
@@ -134,13 +134,13 @@ void game::render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glViewport(0, 0, width, height);
 
-	terrain_shader.use();
-	BindCamera(&ThirdPersonCamera, &terrain_shader);
-	terrain.render(terrain_shader);
-
 	triangle_shader.use();
 	BindCamera(&ThirdPersonCamera, &triangle_shader);
 	draw(&physics_world, triangle_shader);
+
+	terrain_shader.use();
+	BindCamera(&ThirdPersonCamera, &terrain_shader);
+	terrain.render(terrain_shader);
 
 	skybox_shader.use();
 	BindCamera(&ThirdPersonCamera, &skybox_shader);
