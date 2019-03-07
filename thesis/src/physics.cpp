@@ -69,7 +69,7 @@ void draw(world* w, const shader& shader)
 	}
 	shader.uniform("model", model);
 	glBindVertexArray(m_vao);
-	glDrawArrays(GL_TRIANGLES, 0, w->triangles.size());
+	glDrawArrays(GL_TRIANGLES, 0, w->triangles.size() * 3);
 	glBindVertexArray(0);
 }
 
