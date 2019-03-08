@@ -77,10 +77,8 @@ void update_verlet(world* w)
 {
 	float dt_squared = w->dt * w->dt;
 
-	glm::vec3 acceleration;
-	acceleration.x = 0.0f;
+	glm::vec3 acceleration(0);
 	acceleration.y = -9.82f;
-	acceleration.z = 0.0f;
 
 	//Position
 	glm::vec3 temp_position = w->player_position.position;
@@ -112,13 +110,16 @@ void update_verlet(world* w)
 		{
 			glm::vec3 a = triangle.y - triangle.x;
 			glm::vec3 b = triangle.z - triangle.x;
+			glm::vec3 normal = glm::normalize(glm::cross(a, b));
+			float elasticity = 0.5f;
+			float sphere_weight = 7.0f;
+			glm::vec3 normal_force = sphere_weight * acceleration * glm::dot(glm::normalize(-acceleration), normal);
 
-			float e = 0.1f;
+			glm::vec3 velocity = w->player_position.position - w->player_position.old_position;
 
-			glm::vec3 new_pos = w->player_position.old_position +
-				(e * glm::reflect(
+			glm::vec3 new_pos = w->player_position.old_position + (normal_force) + (-velocity * (elasticity * glm::reflect(
 					glm::normalize(w->player_position.position - w->player_position.old_position),
-					glm::normalize(glm::cross(a, b))));
+					normal)));
 
 			w->player_position.position = new_pos;
 		}
