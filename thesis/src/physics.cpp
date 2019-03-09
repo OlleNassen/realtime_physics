@@ -123,8 +123,9 @@ void update_verlet(world* w)
 	if (collision)
 	{
 		normal = glm::normalize(normal);
-		float elasticity = 0.9f;
+		float elasticity = 0.5f;
 		float sphere_weight = 0.03f;
+		float friction_val = 0.4f;
 
 		glm::vec3 gravity_direction = glm::normalize(gravity);
 		glm::vec3 force = sphere_weight * gravity;
@@ -132,8 +133,15 @@ void update_verlet(world* w)
 
 		glm::vec3 normal_force = force * normal * angle;
 		glm::vec3 normal_speed = (normal_force / sphere_weight) * dt_squared;
+		glm::vec3 friction = normal_force * -friction_val;
 
-		glm::vec3 new_pos = w->player_position.position + normal_speed + elasticity * glm::reflect(
+		glm::vec3 total_forces(0.f);
+		total_forces += normal_force;
+		total_forces += friction;
+
+		glm::vec3 total_displacement = (total_forces / sphere_weight) * dt_squared;
+
+		glm::vec3 new_pos = w->player_position.position + total_displacement + elasticity * glm::reflect(
 			w->player_position.position - w->player_position.old_position,
 			normal);
 
