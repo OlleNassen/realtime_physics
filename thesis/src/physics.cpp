@@ -125,9 +125,15 @@ void update_verlet(world* w)
 		normal = glm::normalize(normal);
 		float elasticity = 0.9f;
 		float sphere_weight = 0.03f;
-		glm::vec3 normal_force = sphere_weight * normal * glm::dot(glm::normalize(-gravity), normal);
 
-		glm::vec3 new_pos = w->player_position.position + normal_force + elasticity * glm::reflect(
+		glm::vec3 gravity_direction = glm::normalize(gravity);
+		glm::vec3 force = sphere_weight * gravity;
+		float angle = glm::dot(gravity_direction, normal);
+
+		glm::vec3 normal_force = force * normal * angle;
+		glm::vec3 normal_speed = (normal_force / sphere_weight) * dt_squared;
+
+		glm::vec3 new_pos = w->player_position.position + normal_speed + elasticity * glm::reflect(
 			w->player_position.position - w->player_position.old_position,
 			normal);
 
