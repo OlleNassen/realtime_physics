@@ -112,16 +112,13 @@ void update_verlet(world* w)
 			glm::vec3 a = triangle.y - triangle.x;
 			glm::vec3 b = triangle.z - triangle.x;
 			glm::vec3 normal = glm::normalize(glm::cross(a, b));
-			float elasticity = 0.5f;
+			float elasticity = 0.9f;
 			float sphere_weight = 0.03f;
 			glm::vec3 normal_force = sphere_weight * normal * glm::dot(glm::normalize(-gravity), normal);
 
-			glm::vec3 velocity = w->player_position.position - w->player_position.old_position;
-
-			glm::vec3 new_pos = w->player_position.old_position + normal_force + (-velocity * (elasticity * glm::reflect(
-					glm::normalize(w->player_position.position - w->player_position.old_position),
-					normal)));
-
+			glm::vec3 new_pos = w->player_position.old_position + normal_force + elasticity * glm::reflect(
+					w->player_position.position- w->player_position.old_position,
+					normal);
 
 			w->player_position.position = new_pos;
 		}
