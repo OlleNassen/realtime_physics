@@ -123,9 +123,9 @@ void update_verlet(world* w)
 	if (collision)
 	{
 		normal = glm::normalize(normal);
-		float elasticity = 0.5f;
-		float sphere_weight = 10.0f;
-		float friction_val = 0.4f;
+		float elasticity = 0.7f;
+		float sphere_weight = 0.03f;
+		float friction_val = 0.09f;
 
 		glm::vec3 gravity_direction = glm::normalize(gravity);
 		glm::vec3 force = sphere_weight * gravity;

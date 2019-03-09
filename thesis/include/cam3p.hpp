@@ -15,7 +15,6 @@ struct spherical_point
 
 struct cam3p
 {
-	
 	glm::vec3 PlayerPosition;
 	spherical_point CameraPosition;
 	glm::mat4 View;

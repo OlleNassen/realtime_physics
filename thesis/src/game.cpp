@@ -151,6 +151,16 @@ void game::render()
 
 	//Animated model
 	anim.use();
+	glm::vec3 Forward = DirectionVector(ThirdPersonCamera.CameraPosition);
+	glm::vec3 Position = ThirdPersonCamera.PlayerPosition;
+	Position.x -= Forward.x * ThirdPersonCamera.CameraPosition.Radius;
+	Position.y -= Forward.y * ThirdPersonCamera.CameraPosition.Radius;
+	Position.z -= Forward.z * ThirdPersonCamera.CameraPosition.Radius;
+
+	anim.uniform("camPos", DirectionVector(ThirdPersonCamera.CameraPosition) * ThirdPersonCamera.CameraPosition.Radius);
+	anim.uniform("lightPositions[0]", physics_world.player_position.position + glm::vec3(0,2,0));
+	anim.uniform("lightColors[0]", glm::vec3(1,1,0.1));
+
 	BindCamera(&ThirdPersonCamera, &anim);
 	//game_camera.bind(anim);
 	temp_model.draw(anim);
