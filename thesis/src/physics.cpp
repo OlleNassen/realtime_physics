@@ -116,10 +116,11 @@ void update_verlet(world* w)
 			float sphere_weight = 0.03f;
 			glm::vec3 normal_force = sphere_weight * normal * glm::dot(glm::normalize(-gravity), normal);
 
-			glm::vec3 new_pos = w->player_position.old_position + normal_force + elasticity * glm::reflect(
+			glm::vec3 new_pos = w->player_position.position + normal_force + elasticity * glm::reflect(
 					w->player_position.position- w->player_position.old_position,
 					normal);
 
+			w->player_position.old_position = w->player_position.position;
 			w->player_position.position = new_pos;
 		}
 	}
