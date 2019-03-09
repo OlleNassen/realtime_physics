@@ -77,7 +77,7 @@ game::game()
 	physics_world.player_position.position.y = 70.0f;
 	physics_world.player_position.position.z = 35.0f;
 	
-	physics_world.player_collider.radius = 2.0f;
+	physics_world.player_collider.radius = 1.0f;
 
 	const int width = 256;
 	for (unsigned int i = 0; i < terrain.vertices.size() - (width + 1); i++)

@@ -124,7 +124,7 @@ void update_verlet(world* w)
 	{
 		normal = glm::normalize(normal);
 		float elasticity = 0.5f;
-		float sphere_weight = 0.03f;
+		float sphere_weight = 10.0f;
 		float friction_val = 0.4f;
 
 		glm::vec3 gravity_direction = glm::normalize(gravity);
