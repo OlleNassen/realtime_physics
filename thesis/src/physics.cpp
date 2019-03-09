@@ -132,7 +132,6 @@ void update_verlet(world* w)
 		float angle = glm::dot(gravity_direction, normal);
 
 		glm::vec3 normal_force = force * normal * angle;
-		glm::vec3 normal_speed = (normal_force / sphere_weight) * dt_squared;
 		glm::vec3 friction = normal_force * -friction_val;
 
 		glm::vec3 total_forces(0.f);
