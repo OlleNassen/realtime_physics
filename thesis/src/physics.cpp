@@ -105,23 +105,33 @@ void update_verlet(world* w)
 	w->player_position.old_position = temp_position;
 	w->player_position.old_rotation = temp_rotation;
 
+	
+	glm::vec3 normal = glm::vec3(0.0f, 0.0f, 0.0f);
+	bool collision = false;
+	
 	for (auto& triangle : w->triangles)
 	{
 		if (!sphere_triangle(&w->player_collider, &triangle))
 		{
+			collision = true;
 			glm::vec3 a = triangle.y - triangle.x;
 			glm::vec3 b = triangle.z - triangle.x;
-			glm::vec3 normal = glm::normalize(glm::cross(a, b));
-			float elasticity = 0.9f;
-			float sphere_weight = 0.03f;
-			glm::vec3 normal_force = sphere_weight * normal * glm::dot(glm::normalize(-gravity), normal);
-
-			glm::vec3 new_pos = w->player_position.position + normal_force + elasticity * glm::reflect(
-					w->player_position.position- w->player_position.old_position,
-					normal);
-
-			w->player_position.old_position = w->player_position.position;
-			w->player_position.position = new_pos;
+			normal += glm::normalize(glm::cross(a, b));
 		}
+	}
+	
+	if (collision)
+	{
+		normal = glm::normalize(normal);
+		float elasticity = 0.9f;
+		float sphere_weight = 0.03f;
+		glm::vec3 normal_force = sphere_weight * normal * glm::dot(glm::normalize(-gravity), normal);
+
+		glm::vec3 new_pos = w->player_position.position + normal_force + elasticity * glm::reflect(
+			w->player_position.position - w->player_position.old_position,
+			normal);
+
+		w->player_position.old_position = w->player_position.position;
+		w->player_position.position = new_pos;
 	}
 }
