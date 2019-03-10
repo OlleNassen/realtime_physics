@@ -76,6 +76,14 @@ game::game()
 	physics_world.player_position.position.x = 90.f;
 	physics_world.player_position.position.y = 70.0f;
 	physics_world.player_position.position.z = 35.0f;
+
+	physics_world.player_position.old_rotation.x = 0.f;
+	physics_world.player_position.old_rotation.y = 0.0f;
+	physics_world.player_position.old_rotation.z = 0.0f;
+
+	physics_world.player_position.rotation.x = 0.f;
+	physics_world.player_position.rotation.y = 0.0f;
+	physics_world.player_position.rotation.z = 0.0f;
 	
 	physics_world.player_collider.radius = 1.0f;
 
