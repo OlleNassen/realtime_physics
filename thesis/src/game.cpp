@@ -193,13 +193,9 @@ void game::update(float delta_time)
 
 	physics_world.player_position.position = ThirdPersonCamera.PlayerPosition;
 
-	glm::vec3 angle = physics_world.player_position.rotation - physics_world.player_position.old_rotation;
-	
-	glm::mat4 model(1.0f);
-	model =
-		glm::rotate(model, angle.x, glm::vec3(1.0f, 0.0f, 0.0f)) *
-		glm::rotate(model, angle.y, glm::vec3(0.0f, 1.0f, 0.0f)) *
-		glm::rotate(model, angle.z, glm::vec3(0.0f, 0.0f, 1.0f));
-	
-	temp_model.model_mat *= model;
+	if (physics_world.model_mat != temp_model.model_mat)
+	{
+		temp_model.model_mat *= physics_world.model_mat;
+	}
+
 }

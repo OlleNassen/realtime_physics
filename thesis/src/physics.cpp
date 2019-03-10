@@ -1,6 +1,8 @@
 #include "physics.hpp"
 #include "GL/glew.h"
 #include <iostream>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 float magnitude_squared(glm::vec3* v)
 {
@@ -141,6 +143,15 @@ void update_verlet(world* w)
 
 		glm::vec3 total_moment(0.f);
 		total_moment += glm::cross(-(w->player_collider.radius * normal), total_forces);
+
+		glm::vec3 rot_angle = w->player_position.position - w->player_position.old_position;
+		glm::mat4 model(1.0f);
+		model =
+			glm::rotate(model, rot_angle.x, glm::vec3(1.0f, 0.0f, 0.0f)) *
+			glm::rotate(model, rot_angle.y, glm::vec3(0.0f, 1.0f, 0.0f)) *
+			glm::rotate(model, rot_angle.z, glm::vec3(0.0f, 0.0f, 1.0f));
+
+		w->model_mat = model;
 
 		glm::vec3 total_displacement = (total_forces / sphere_weight) * dt_squared;
 

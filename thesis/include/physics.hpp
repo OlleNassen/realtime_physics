@@ -34,9 +34,8 @@ struct world
 	point player_position;
 	sphere player_collider;
 	std::vector<triangle> triangles;
+	glm::mat4 model_mat = glm::mat4(1.f);
 };
-
-
 
 void draw(world* w, const shader& shader);
 
