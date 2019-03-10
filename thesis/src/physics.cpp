@@ -78,6 +78,7 @@ void update_verlet(world* w)
 	float dt_squared = w->dt * w->dt;
 
 	glm::vec3 acceleration(0);
+	glm::vec3 angular_acceleration(0.f);
 	glm::vec3 gravity(0,-9.82f, 0);
 	acceleration.y = gravity.y;
 
@@ -90,14 +91,14 @@ void update_verlet(world* w)
 		acceleration * w->dt * w->dt;
 
 	acceleration.y = 0.0f;
-	
+
 	//Rotation 
 	glm::vec3 temp_rotation = w->player_position.rotation;
 
 	w->player_position.rotation =
 		2.0f * w->player_position.rotation
 		- w->player_position.old_rotation +
-		acceleration * w->dt * w->dt;
+		angular_acceleration * w->dt * w->dt;
 
 	//resolve collisions
 	w->player_collider.position = w->player_position.position;
