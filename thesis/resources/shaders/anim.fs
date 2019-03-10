@@ -13,7 +13,7 @@ uniform sampler2D albedo;
 uniform sampler2D normal;
 uniform sampler2D roughness;
 uniform sampler2D metallic;
-uniform sampler2D ao;
+//uniform sampler2D ao;
 
 const int num_lights = 1;
 
@@ -106,7 +106,7 @@ void main()
         vec3 L = normalize(lightPositions[i] - fs_in.world_pos);
         vec3 H = normalize(V + L);
         float distance = length(lightPositions[i] - fs_in.world_pos);
-        float attenuation = 1000.0 / (distance * distance);
+        float attenuation = 100000.0 / (distance * distance);
         vec3 radiance = lightColors[i] * attenuation;
 
         // Cook-Torrance BRDF

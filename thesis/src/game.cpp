@@ -184,4 +184,9 @@ void game::update(float delta_time)
 		(bool)glfwGetKey(game_window.glfw_window, GLFW_KEY_D));
 
 	physics_world.player_position.position = ThirdPersonCamera.PlayerPosition;
+
+	float angle = physics_world.player_position.old_rotation - physics_world.player_position.rotation;
+
+	temp_model.set_rotation(rotation, physics_world.player_position.rotation);
+
 }

@@ -95,6 +95,11 @@ public:
 		model_mat[3] = glm::vec4(position, 1);
 	}
 
+	void set_rotation(const float angle, const glm::vec3& rotation)
+	{
+		model_mat = glm::rotate(model_mat, angle, rotation);
+	}
+
 	
 private:
 	glm::mat4 model_mat{-1,0,0,0,0,0,1,0,0,1,0,0,0,0,0,1};
