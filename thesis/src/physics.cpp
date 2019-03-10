@@ -139,6 +139,9 @@ void update_verlet(world* w)
 		total_forces += normal_force;
 		total_forces += friction;
 
+		glm::vec3 total_moment(0.f);
+		total_moment += glm::cross(-(w->player_collider.radius * normal), total_forces);
+
 		glm::vec3 total_displacement = (total_forces / sphere_weight) * dt_squared;
 
 		glm::vec3 new_pos = w->player_position.position + total_displacement + elasticity * glm::reflect(
