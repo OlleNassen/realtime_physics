@@ -185,8 +185,13 @@ void game::update(float delta_time)
 
 	physics_world.player_position.position = ThirdPersonCamera.PlayerPosition;
 
-	float angle = physics_world.player_position.old_rotation - physics_world.player_position.rotation;
-
-	temp_model.set_rotation(rotation, physics_world.player_position.rotation);
-
+	glm::vec3 angle = physics_world.player_position.rotation - physics_world.player_position.old_rotation;
+	
+	glm::mat4 model(1.0f);
+	model =
+		glm::rotate(model, angle.x, glm::vec3(1.0f, 0.0f, 0.0f)) *
+		glm::rotate(model, angle.y, glm::vec3(0.0f, 1.0f, 0.0f)) *
+		glm::rotate(model, angle.z, glm::vec3(0.0f, 0.0f, 1.0f));
+	
+	temp_model.model_mat *= model;
 }

@@ -101,8 +101,9 @@ public:
 	}
 
 	
-private:
 	glm::mat4 model_mat{-1,0,0,0,0,0,1,0,0,1,0,0,0,0,0,1};
+private:
+	
 
     texture albedo{"resources/textures/rustediron2_albedo.png"};
 	texture normal{ "resources/textures/rustediron2_normal.png"};
