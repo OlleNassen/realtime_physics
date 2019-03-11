@@ -161,7 +161,7 @@ void game::render()
 	anim.use();
 	BindCamera(&ThirdPersonCamera, &anim);
 	anim.uniform("lightPositions[0]", physics_world.player_position.position + glm::vec3(0,2,0));
-	anim.uniform("lightColors[0]", glm::vec3(1,1,0.1));
+	anim.uniform("lightColors[0]", glm::vec3(1,1,1));
 
 	temp_model.draw(anim);
 
