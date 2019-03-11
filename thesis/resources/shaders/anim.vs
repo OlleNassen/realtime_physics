@@ -19,7 +19,7 @@ uniform mat4 projection;
 
 void main()
 {
-	vs_out.world_pos = (model * vec4(position, 0)).xyz;
+	vs_out.world_pos = (model * vec4(position, 1)).xyz;
     vs_out.tex_coord = texture_coordinate;
 	vs_out.world_normal = (model * vec4(normal, 0)).xyz;
 

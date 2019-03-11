@@ -43,6 +43,7 @@ static void BindCamera(cam3p* P, shader* shad)
 	Position.z -= Forward.z * P->CameraPosition.Radius;
 
 	shad->uniform("view_position", Position);
+	shad->uniform("camPos", Position);
 	shad->uniform("view", P->View);
 	shad->uniform("projection", P->Projection);
 	shad->uniform("view_projection", P->Projection * P->View);

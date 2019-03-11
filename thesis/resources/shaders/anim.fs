@@ -106,7 +106,7 @@ void main()
         vec3 L = normalize(lightPositions[i] - fs_in.world_pos);
         vec3 H = normalize(V + L);
         float distance = length(lightPositions[i] - fs_in.world_pos);
-        float attenuation = 100000.0 / (distance * distance);
+        float attenuation = 1.0 / (distance * distance);
         vec3 radiance = lightColors[i] * attenuation;
 
         // Cook-Torrance BRDF
