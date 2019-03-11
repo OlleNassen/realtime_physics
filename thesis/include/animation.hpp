@@ -100,6 +100,14 @@ public:
 		model_mat = glm::rotate(model_mat, angle, rotation);
 	}
 
+	void TexSteal(const shader& shader) const
+	{
+		albedo.uniform(shader, "albedo", 0);
+		normal.uniform(shader, "normal", 1);
+		metallic.uniform(shader, "metallic", 2);
+		roughness.uniform(shader, "roughness", 3);
+	}
+
 	
 	glm::mat4 model_mat{-1,0,0,0,0,0,1,0,0,1,0,0,0,0,0,1};
 private:

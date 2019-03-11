@@ -150,13 +150,15 @@ void game::render()
 
 	terrain_shader.use();
 	BindCamera(&ThirdPersonCamera, &terrain_shader);
+	terrain_shader.uniform("lightPositions[0]", physics_world.player_position.position + glm::vec3(0, 2, 0));
+	terrain_shader.uniform("lightColors[0]", glm::vec3(1, 1, 1));
+	temp_model.TexSteal(skybox_shader);
 	terrain.render(terrain_shader);
 
 	skybox_shader.use();
 	BindCamera(&ThirdPersonCamera, &skybox_shader);
 	skybox_shader.uniform("view",
         glm::mat4(glm::mat3(game_camera.get_view())));
-
 	sky.render(skybox_shader);
 
 	//Animated model
