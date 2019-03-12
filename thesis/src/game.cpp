@@ -208,15 +208,8 @@ void game::update(float delta_time)
 	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_A)) right_direction += 1.0f;
 	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_D)) right_direction -= 1.0f;
 
-	//physics_world.gravity.x = sin(right_direction);
-	//physics_world.gravity.z = sin(forward_direction);
-
-	/*physics_world.player_position.
-
-	glm::vec3* Player = &State->PlayerPosition;
-	Player->x -= forward_direction * forward.x + right_direction * right.x;
-	Player->y -= forward_direction * forward.y + right_direction * right.y;
-	Player->z -= forward_direction * forward.z + right_direction * right.z;*/
+	glm::vec3 mix_vec = glm::vec3(right_direction, 0.0f, forward_direction);
+	physics_world.gravity = glm::length(physics_world.gravity) * (glm::normalize(physics_world.gravity) + mix_vec);
 
 	ThirdPersonCamera.up = -glm::normalize(physics_world.gravity);
 	
