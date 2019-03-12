@@ -168,6 +168,7 @@ void game::render()
 	anim.uniform("lightColors[0]", glm::vec3(1,1,1));
 
 	temp_model.draw(anim);
+	renderSphere();
 
 	game_window.swap_buffers();
 }
@@ -196,10 +197,11 @@ void game::update(float delta_time)
 
 }
 
-unsigned int sphereVAO = 0;
-unsigned int indexCount;
+
 void renderSphere()
 {
+	static unsigned int sphereVAO = 0;
+	static unsigned int indexCount;
 	if (sphereVAO == 0)
 	{
 		glGenVertexArrays(1, &sphereVAO);

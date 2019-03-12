@@ -307,9 +307,9 @@ void model::draw(const shader& shader) const
 	metallic.uniform(shader, "metallic", 2);
 	roughness.uniform(shader, "roughness", 3);
 
-	model_array.bind();
-	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
-	glBindVertexArray(0);
+	//model_array.bind();
+	//glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+	//glBindVertexArray(0);
 }
 
 }
