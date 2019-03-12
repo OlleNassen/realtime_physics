@@ -17,6 +17,7 @@ struct cam3p
 {
 	glm::vec3 PlayerPosition;
 	spherical_point CameraPosition;
+	glm::vec3 up;
 	glm::mat4 View;
 	glm::mat4 Projection;
 	int DX;
@@ -76,7 +77,7 @@ static void RotateCamera(spherical_point* P, float X, float Y)
 	if (P->Phi < Min) P->Phi = Min;
 }
 
-static void UpdateCamera(cam3p* State, int MX, int MY, bool UpB, bool LeftB, bool DownB, bool RightB)
+static void UpdateCamera(cam3p* State, int MX, int MY, float Timestep)
 {
 	if (State->First)
 	{
@@ -90,34 +91,11 @@ static void UpdateCamera(cam3p* State, int MX, int MY, bool UpB, bool LeftB, boo
 	State->DX = MX;
 	State->DY = MY;
 	
-	float Timestep = 1.0f / 60.0f;
 	float Sensitivity = 0.05f;
 	
 	RotateCamera(&State->CameraPosition,
 		(float)xoffset * Sensitivity,
 		-(float)yoffset * Sensitivity);
-
-	glm::vec3 forward = DirectionVector(State->CameraPosition);
-
-	glm::vec3 up = {};
-	up.y = 1.0f;
-
-	glm::vec3 right = glm::normalize(glm::cross(forward, up));
-	up = glm::cross(right, forward);
-
-	float speed = Timestep;
-	float forward_direction = 0.0f;
-	float right_direction = 0.0f;
-
-	if (UpB) forward_direction -= speed;
-	if (DownB) forward_direction += speed;
-	if (LeftB) right_direction += speed;
-	if (RightB) right_direction -= speed;
-
-	glm::vec3* Player = &State->PlayerPosition;
-	Player->x -= forward_direction * forward.x + right_direction * right.x;
-	Player->y -= forward_direction * forward.y + right_direction * right.y;
-	Player->z -= forward_direction * forward.z + right_direction * right.z;
 
 	// stuff
 	
@@ -128,8 +106,8 @@ static void UpdateCamera(cam3p* State, int MX, int MY, bool UpB, bool LeftB, boo
 	Position.y -= Forward.y * State->CameraPosition.Radius;
 	Position.z -= Forward.z * State->CameraPosition.Radius;
 
-	glm::vec3 Up = {};
-	Up.y = 1.0f;
+	glm::vec3 Up = State->up;
+	//Up.y = 1.0f;
 	
 	glm::vec3 Right = glm::normalize(glm::cross(Forward, Up));
 	Up = glm::cross(Right, Forward);

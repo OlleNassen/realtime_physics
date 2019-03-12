@@ -81,7 +81,7 @@ void update_verlet(world* w)
 
 	glm::vec3 acceleration(0);
 	glm::vec3 angular_acceleration(0.f);
-	glm::vec3 gravity(0,-9.82f, 0);
+	glm::vec3 gravity = w->gravity;
 	acceleration.y = gravity.y;
 
 	//Position

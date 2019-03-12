@@ -89,6 +89,8 @@ game::game()
 	
 	physics_world.player_collider.radius = 1.0f;
 
+	physics_world.gravity = glm::vec3(0.0f, -9.82f, 0.0f);
+
 	const int width = 256;
 	for (unsigned int i = 0; i < terrain.vertices.size() - (width + 1); i++)
 	{
@@ -188,16 +190,41 @@ void game::update(float delta_time)
 {
 	update_verlet(&physics_world);	
 	temp_model.set_position(physics_world.player_position.position);
+
+	/*glm::vec3 forward = DirectionVector(physics_world.CameraPosition);
+
+	glm::vec3 up = {};
+	up.y = 1.0f;
+
+	glm::vec3 right = glm::normalize(glm::cross(forward, up));
+	up = glm::cross(right, forward);*/
+
+	float speed = delta_time;
+	float forward_direction = 0.0f;
+	float right_direction = 0.0f;
+
+	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_W)) forward_direction -= 1.0f;
+	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_S)) forward_direction += 1.0f;
+	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_A)) right_direction += 1.0f;
+	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_D)) right_direction -= 1.0f;
+
+	//physics_world.gravity.x = sin(right_direction);
+	//physics_world.gravity.z = sin(forward_direction);
+
+	/*physics_world.player_position.
+
+	glm::vec3* Player = &State->PlayerPosition;
+	Player->x -= forward_direction * forward.x + right_direction * right.x;
+	Player->y -= forward_direction * forward.y + right_direction * right.y;
+	Player->z -= forward_direction * forward.z + right_direction * right.z;*/
+
+	ThirdPersonCamera.up = -glm::normalize(physics_world.gravity);
 	
 	double MX, MY;
 	glfwGetCursorPos(game_window.glfw_window, &MX, &MY);
 	ThirdPersonCamera.PlayerPosition = physics_world.player_position.position;
 
-	UpdateCamera(&ThirdPersonCamera, (int)MX, (int)MY,
-		(bool)glfwGetKey(game_window.glfw_window, GLFW_KEY_W),
-		(bool)glfwGetKey(game_window.glfw_window, GLFW_KEY_A),
-		(bool)glfwGetKey(game_window.glfw_window, GLFW_KEY_S),
-		(bool)glfwGetKey(game_window.glfw_window, GLFW_KEY_D));
+	UpdateCamera(&ThirdPersonCamera, (int)MX, (int)MY, delta_time);
 
 	physics_world.player_position.position = ThirdPersonCamera.PlayerPosition;
 
