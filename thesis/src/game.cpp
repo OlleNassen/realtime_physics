@@ -191,26 +191,15 @@ void game::update(float delta_time)
 	update_verlet(&physics_world);	
 	temp_model.set_position(physics_world.player_position.position);
 
-	/*glm::vec3 forward = DirectionVector(physics_world.CameraPosition);
-
-	glm::vec3 up = {};
-	up.y = 1.0f;
-
-	glm::vec3 right = glm::normalize(glm::cross(forward, up));
-	up = glm::cross(right, forward);*/
-
-	float speed = delta_time;
-	float forward_direction = 0.0f;
-	float right_direction = 0.0f;
-
-	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_W)) forward_direction -= 1.0f;
-	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_S)) forward_direction += 1.0f;
-	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_A)) right_direction += 1.0f;
-	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_D)) right_direction -= 1.0f;
-
-	glm::vec3 mix_vec = glm::vec3(right_direction, 0.0f, forward_direction);
-	physics_world.gravity = glm::length(physics_world.gravity) * (glm::normalize(physics_world.gravity) + mix_vec);
-
+	glm::mat4 directions[4];
+	for (auto& dir : directions) dir = glm::mat4(1.0f);
+	
+	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_W)) directions[0] = glm::rotate(directions[0], delta_time, glm::vec3(0.0f, 0.0f, 1.0f));
+	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_S)) directions[1] = glm::rotate(directions[1], -delta_time, glm::vec3(0.0f, 0.0f, 1.0f));
+	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_A)) directions[2] = glm::rotate(directions[2], -delta_time, glm::vec3(1.0f, 0.0f, 0.0f));
+	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_D)) directions[3] = glm::rotate(directions[3], delta_time, glm::vec3(1.0f, 0.0f, 0.0f));
+	
+	physics_world.gravity = glm::vec3(directions[0] * directions[1] * directions[2] * directions[3] * glm::vec4(physics_world.gravity, 0.0f));
 	ThirdPersonCamera.up = -glm::normalize(physics_world.gravity);
 	
 	double MX, MY;
