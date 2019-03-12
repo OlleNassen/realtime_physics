@@ -148,11 +148,18 @@ void game::render()
 	//BindCamera(&ThirdPersonCamera, &triangle_shader);
 	//draw(&physics_world, triangle_shader);
 
+	static glm::vec3 dir_light_dir = glm::vec3(0, -1, 0);
+	static glm::vec3 dir_light_color = glm::vec3(17, 17, 53);
+	static float dir_light_intensity = 100.f;
+
 	terrain_shader.use();
 	BindCamera(&ThirdPersonCamera, &terrain_shader);
 	terrain_shader.uniform("lightPositions[0]", physics_world.player_position.position + glm::vec3(0, 2, 0));
 	terrain_shader.uniform("lightColors[0]", glm::vec3(1, 1, 1));
 	temp_model.TexSteal(skybox_shader);
+	terrain_shader.uniform("dir_light_dir", dir_light_dir);
+	terrain_shader.uniform("dir_light_color", dir_light_color);
+	terrain_shader.uniform("dir_light_intensity", dir_light_intensity);
 	terrain.render(terrain_shader);
 
 	skybox_shader.use();
@@ -166,6 +173,10 @@ void game::render()
 	BindCamera(&ThirdPersonCamera, &anim);
 	anim.uniform("lightPositions[0]", physics_world.player_position.position + glm::vec3(0,2,0));
 	anim.uniform("lightColors[0]", glm::vec3(1,1,1));
+
+	anim.uniform("dir_light_dir", dir_light_dir);
+	anim.uniform("dir_light_color", dir_light_color);
+	anim.uniform("dir_light_intensity", dir_light_intensity);
 
 	temp_model.draw(anim);
 	renderSphere();

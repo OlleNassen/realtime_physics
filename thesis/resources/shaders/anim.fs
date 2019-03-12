@@ -21,6 +21,10 @@ const int num_lights = 1;
 uniform vec3 lightPositions[num_lights];
 uniform vec3 lightColors[num_lights];
 
+uniform vec3 dir_light_dir;
+uniform vec3 dir_light_color;
+uniform float dir_light_intensity;
+
 uniform vec3 camPos;
 
 const float PI = 3.14159265359;
@@ -134,7 +138,34 @@ void main()
 
         // add to outgoing radiance Lo
         Lo += (kD * albedo_texture / PI + specular) * radiance * NdotL;  // note that we already multiplied the BRDF by the Fresnel (kS) so we won't multiply by kS again
-    }   
+    }
+
+	{ //Dir light
+		vec3 V = normalize(camPos.xyz - fs_in.world_pos);
+		vec3 L = normalize(-dir_light_dir);
+		vec3 H = normalize(V + L);     
+		              
+		vec3 F0 = vec3(0.04); 
+		F0 = mix(F0, albedo_texture, metallic_texture);
+		         
+		vec3 radiance = dir_light_color * dir_light_intensity;        
+		
+		float NDF = DistributionGGX(N, H, roughness_texture);   
+		float G   = GeometrySmith(N, V, L, roughness_texture);      
+		vec3 F    = fresnelSchlick(max(dot(H, V), 0.0), F0);      
+		
+		vec3 kS = F;
+		vec3 kD = vec3(1.0) - kS;
+		kD *= 1.0 - metallic_texture;	  
+		
+		vec3 nominator    = NDF * G * F;
+		float denominator = 4 * max(dot(N, V), 0.0) * max(dot(N, L), 0.0) + 0.001; 
+		vec3 specular     = nominator / denominator;
+		    
+		float NdotL = max(dot(N, L), 0.0);                
+		Lo += (kD * albedo_texture / PI + specular) * radiance * NdotL;
+    }
+
     
     // ambient lighting (note that the next IBL tutorial will replace 
     // this ambient lighting with environment lighting).
