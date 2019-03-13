@@ -79,30 +79,29 @@ game::game()
 	ThirdPersonCamera.First = true;
 	ThirdPersonCamera.CameraPosition.Radius = 5.0f;
 
-	physics_world.player_position.old_position.x = 40.f;
-	physics_world.player_position.old_position.y = 50.f;
-	physics_world.player_position.old_position.z = 49.f;
+	physics_world.player_position.old_position.x = 50.f;
+	physics_world.player_position.old_position.y = 55.f;
+	physics_world.player_position.old_position.z = 50.f;
 
-	physics_world.player_position.position.x = 40.f;
-	physics_world.player_position.position.y = 50.f;
-	physics_world.player_position.position.z = 49.f;
+	physics_world.player_position.position.x = 50.f;
+	physics_world.player_position.position.y = 55.f;
+	physics_world.player_position.position.z = 50.f;
 	
 	physics_world.player_collider.radius = 1.0f;
 	physics_world.player_collider.weight = 10.f;
-	physics_world.player_collider.elasticity = 1.0f;
+	physics_world.player_collider.elasticity = 0.3f;
 
 	physics_world.enemy_position.old_position.x = 50.f;
 	physics_world.enemy_position.old_position.y = 50.f;
 	physics_world.enemy_position.old_position.z = 50.f;
 
-	physics_world.enemy_position.position.x = 49.5f;
+	physics_world.enemy_position.position.x = 50.f;
 	physics_world.enemy_position.position.y = 50.f;
 	physics_world.enemy_position.position.z = 50.f;
 
 	physics_world.enemy_collider.radius = 1.0f;
 	physics_world.enemy_collider.weight = 100.f;
-	physics_world.enemy_collider.elasticity = 1.0f;
-
+	physics_world.enemy_collider.elasticity = 0.3f;
 
 	physics_world.player_position.velocity = glm::vec3(0.0f, 0.0f, 0.0f);
 	physics_world.player_position.acceleration = glm::vec3(0.0f, 0.0f, 0.0f);
