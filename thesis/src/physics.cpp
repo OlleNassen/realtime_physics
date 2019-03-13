@@ -54,7 +54,7 @@ bool sphere_triangle(sphere* sphere, triangle* triangle)
 bool sphere_sphere(sphere* left, sphere* right)
 {
 	float rad_sum = left->radius + right->radius;
-	float squared_distance = magnitude_squared(&left->position + &right->position);
+	float squared_distance = magnitude_squared(&(left->position + right->position));
 	
 	return squared_distance < rad_sum * rad_sum;
 }
