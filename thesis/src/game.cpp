@@ -169,8 +169,8 @@ void game::render()
 	//BindCamera(&ThirdPersonCamera, &triangle_shader);
 	//draw(&physics_world, triangle_shader);
 
-	static glm::vec3 dir_light_dir = glm::vec3(0, -1, 0);
-	static glm::vec3 dir_light_color = glm::vec3(17, 17, 53);
+	static glm::vec3 dir_light_dir = glm::vec3(1, -1, 0);
+	static glm::vec3 dir_light_color = glm::vec3(1, 1, 1);
 	static float dir_light_intensity = 1.f;
 
 	terrain_shader.use();
