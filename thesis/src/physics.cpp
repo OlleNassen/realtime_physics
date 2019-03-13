@@ -143,12 +143,14 @@ void sphere_collision(world* w)
 void update_verlet(world* w)
 {
 	update_verlet(&w->player_position, w->gravity, w->dt);
+	update_verlet(&w->enemy_position, w->gravity, w->dt);
 	collision(w);
 }
 
 void update_euler(world* w)
 {
 	update_euler(&w->player_position, w->gravity, w->dt);
+	update_euler(&w->enemy_position, w->gravity, w->dt);
 	collision(w);
 }
 

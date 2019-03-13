@@ -102,6 +102,9 @@ game::game()
 	physics_world.player_position.velocity = glm::vec3(0.0f, 0.0f, 0.0f);
 	physics_world.player_position.acceleration = glm::vec3(0.0f, 0.0f, 0.0f);
 
+	physics_world.enemy_position.velocity = glm::vec3(0.0f, 0.0f, 0.0f);
+	physics_world.enemy_position.acceleration = glm::vec3(0.0f, 0.0f, 0.0f);
+
 	physics_world.gravity = glm::vec3(0.0f, -9.82f, 0.0f);
 
 	const int width = 256;
