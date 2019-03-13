@@ -260,6 +260,8 @@ void game::render()
 		break;
 	}
 
+	temp_text.render_text("Material friction: " + std::to_string(physics_world.friction_val).substr(0, 4), 900.f, 0.f, .3f);
+
 	glEnable(GL_DEPTH_TEST);
 
 	game_window.swap_buffers();
@@ -267,9 +269,22 @@ void game::render()
 
 void game::update(float delta_time)
 {
-	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_F1)) terrain_type = 0;
-	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_F2)) terrain_type = 1;
-	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_F3)) terrain_type = 2;
+	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_F1))
+	{
+		terrain_type = 0;
+		physics_world.friction_val = 0.2f;
+	}
+	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_F2))
+	{
+		terrain_type = 1;
+		physics_world.friction_val = 0.02f; // ICE
+	}
+	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_F3))
+	{
+		terrain_type = 2;
+		physics_world.friction_val = 0.35f; // sand
+
+	}
 
 	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_F5))
 	{

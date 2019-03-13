@@ -113,14 +113,13 @@ void collision(world* w, sphere* sphere, point* point)
 	if (collision)
 	{
 		normal = glm::normalize(normal);
-		float friction_val = 0.09f;
 
 		glm::vec3 gravity_direction = glm::normalize(w->gravity);
 		glm::vec3 force = sphere->weight * w->gravity;
 		float angle = glm::dot(w->gravity, normal);
 
 		glm::vec3 normal_force = force * normal * angle;
-		glm::vec3 friction = normal_force * -friction_val;
+		glm::vec3 friction = normal_force * -w->friction_val;
 
 		glm::vec3 total_forces(0.f);
 		total_forces += normal_force;

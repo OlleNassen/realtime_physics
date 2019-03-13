@@ -32,6 +32,7 @@ struct triangle
 
 struct world
 {
+	float friction_val = 0.09f;
 	float dt;
 	point player_position;
 	sphere player_collider;
