@@ -40,6 +40,8 @@ window::window(
 
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
+
+	//glfwSwapInterval(0);
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // Wireframe
 }
 

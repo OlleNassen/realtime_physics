@@ -83,16 +83,16 @@ void draw(world* w, const shader& shader)
 	glBindVertexArray(0);
 }
 
-void collision(world* w)
+void collision(world* w, sphere* sphere, point* point)
 {
-	w->player_collider.position = w->player_position.position;
+	sphere->position = point->position;
 	
 	glm::vec3 normal = glm::vec3(0.0f, 0.0f, 0.0f);
 	bool collision = false;
 
 	for (auto& triangle : w->triangles)
 	{
-		if (!sphere_triangle(&w->player_collider, &triangle))
+		if (!sphere_triangle(sphere, &triangle))
 		{
 			collision = true;
 			glm::vec3 a = triangle.y - triangle.x;
@@ -121,14 +121,14 @@ void collision(world* w)
 
 		glm::vec3 total_displacement = (total_forces / sphere_weight) * w->dt * w->dt;
 
-		glm::vec3 new_pos = w->player_position.position + total_displacement + elasticity * glm::reflect(
-			w->player_position.velocity * w->dt,
+		glm::vec3 new_pos = point->position + total_displacement + elasticity * glm::reflect(
+			point->velocity * w->dt,
 			normal);
 
-		w->player_position.old_position = w->player_position.position;
-		w->player_position.position = new_pos;
+		point->old_position = point->position;
+		point->position = new_pos;
 
-		w->player_position.velocity = (w->player_position.position - w->player_position.old_position) / w->dt;
+		point->velocity = (point->position - point->old_position) / w->dt;
 	}
 }
 
@@ -144,14 +144,16 @@ void update_verlet(world* w)
 {
 	update_verlet(&w->player_position, w->gravity, w->dt);
 	update_verlet(&w->enemy_position, w->gravity, w->dt);
-	collision(w);
+	collision(w, &w->player_collider, &w->player_position);
+	collision(w, &w->enemy_collider, &w->enemy_position);
 }
 
 void update_euler(world* w)
 {
 	update_euler(&w->player_position, w->gravity, w->dt);
 	update_euler(&w->enemy_position, w->gravity, w->dt);
-	collision(w);
+	collision(w, &w->player_collider, &w->player_position);
+	collision(w, &w->enemy_collider, &w->enemy_position);
 }
 
 void update_verlet(point* p, glm::vec3 gravity, float dt)
