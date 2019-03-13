@@ -205,7 +205,7 @@ void game::update(float delta_time)
 	
 	if (is_verlet)
 	{
-		update_verlet(&physics_world);	
+		update_verlet(&physics_world);
 	}
 	else
 	{

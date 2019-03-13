@@ -51,6 +51,14 @@ bool sphere_triangle(sphere* sphere, triangle* triangle)
 	return separated;
 }
 
+bool sphere_sphere(sphere* left, sphere* right)
+{
+	float rad_sum = left->radius + right->radius;
+	float squared_distance = magnitude_squared(&left->position + &right->position);
+	
+	return squared_distance < rad_sum * rad_sum;
+}
+
 void draw(world* w, const shader& shader)
 {
 	static bool run_once = false;
@@ -128,7 +136,6 @@ void update_verlet(world* w)
 {
 	glm::vec3 acceleration = w->player_position.acceleration + w->gravity;
 	glm::vec3 temp_position = w->player_position.position;
-	std::cout << w->player_position.velocity.y << '\n';
 	
 	w->player_position.position =
 		2.0f * w->player_position.position - w->player_position.old_position 
@@ -146,7 +153,6 @@ void update_euler(world* w)
 {
 	glm::vec3 acceleration = w->player_position.acceleration + w->gravity;
 	glm::vec3 temp_position = w->player_position.position;
-	std::cout << w->player_position.velocity.y << '\n';
 	
 	w->player_position.velocity += acceleration * w->dt;
 	w->player_position.position += w->player_position.velocity * w->dt;
