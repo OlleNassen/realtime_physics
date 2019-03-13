@@ -100,7 +100,7 @@ game::game()
 	physics_world.enemy_position.position.z = 200.f;
 
 	physics_world.enemy_collider.radius = 1.0f;
-	physics_world.enemy_collider.weight = 10.f;
+	physics_world.enemy_collider.weight = 1.f;
 	physics_world.enemy_collider.elasticity = 0.6f;
 
 	physics_world.player_position.velocity = glm::vec3(0.0f, 0.0f, 0.0f);
@@ -235,6 +235,31 @@ void game::render()
 	int vz = (int)physics_world.player_position.velocity.z;
 	temp_text.render_text("Velocity: " + std::to_string(vx) + ", " + std::to_string(vy) + ", " + std::to_string(vz), 0, 700.f, .3f);
 
+	switch (ball_material[0])
+	{
+	case 0:
+		temp_text.render_text("Player weight: 100 kg", 500.f, 700.f, .3f);
+		break;
+	case 1:
+		temp_text.render_text("Player weight: 10 kg", 500.f, 700.f, .3f);
+		break;
+	case 2:
+		temp_text.render_text("Player weight: 1 kg", 500.f, 700.f, .3f);
+		break;
+	}
+	switch (ball_material[1])
+	{
+	case 0:
+		temp_text.render_text("Enemy weight: 100 kg", 900.f, 700.f, .3f);
+		break;
+	case 1:
+		temp_text.render_text("Enemy weight: 10 kg", 900.f, 700.f, .3f);
+		break;
+	case 2:
+		temp_text.render_text("Enemy weight: 1 kg", 900.f, 700.f, .3f);
+		break;
+	}
+
 	glEnable(GL_DEPTH_TEST);
 
 	game_window.swap_buffers();
@@ -259,7 +284,7 @@ void game::update(float delta_time)
 	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_F7))
 	{
 		ball_material[0] = 2;
-		physics_world.player_collider.weight = 0.2f;
+		physics_world.player_collider.weight = 1.f;
 	}
 
 	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_5))
@@ -275,7 +300,7 @@ void game::update(float delta_time)
 	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_7))
 	{
 		ball_material[1] = 2;
-		physics_world.enemy_collider.weight = 0.2f;
+		physics_world.enemy_collider.weight = 1.f;
 	}
 
 	
