@@ -114,8 +114,6 @@ game::game()
 		}
 
 	}
-
-
 }
 
 void game::run()
@@ -210,21 +208,8 @@ void game::update(float delta_time)
 	{
 		update_euler(&physics_world);
 	}
-	
-	
-	
+		
 	temp_model.set_position(physics_world.player_position.position);
-
-	glm::mat4 directions[4];
-	for (auto& dir : directions) dir = glm::mat4(1.0f);
-	
-	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_W)) directions[0] = glm::rotate(directions[0], delta_time, glm::vec3(0.0f, 0.0f, 1.0f));
-	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_S)) directions[1] = glm::rotate(directions[1], -delta_time, glm::vec3(0.0f, 0.0f, 1.0f));
-	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_A)) directions[2] = glm::rotate(directions[2], -delta_time, glm::vec3(1.0f, 0.0f, 0.0f));
-	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_D)) directions[3] = glm::rotate(directions[3], delta_time, glm::vec3(1.0f, 0.0f, 0.0f));
-	
-	physics_world.gravity = glm::vec3(directions[0] * directions[1] * directions[2] * directions[3] * glm::vec4(physics_world.gravity, 1.0f));
-	ThirdPersonCamera.up = -glm::normalize(physics_world.gravity);
 
 	double MX, MY;
 	glfwGetCursorPos(game_window.glfw_window, &MX, &MY);
@@ -233,12 +218,6 @@ void game::update(float delta_time)
 	UpdateCamera(&ThirdPersonCamera, (int)MX, (int)MY, delta_time);
 
 	physics_world.player_position.position = ThirdPersonCamera.PlayerPosition;
-
-	if (physics_world.model_mat != temp_model.model_mat)
-	{
-		temp_model.model_mat *= physics_world.model_mat;
-	}
-
 }
 
 void init_spheres(renderable_spheres* spheres)

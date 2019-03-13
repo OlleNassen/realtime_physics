@@ -17,7 +17,6 @@ struct cam3p
 {
 	glm::vec3 PlayerPosition;
 	spherical_point CameraPosition;
-	glm::vec3 up;
 	glm::mat4 View;
 	glm::mat4 Projection;
 	int DX;
@@ -106,8 +105,8 @@ static void UpdateCamera(cam3p* State, int MX, int MY, float Timestep)
 	Position.y -= Forward.y * State->CameraPosition.Radius;
 	Position.z -= Forward.z * State->CameraPosition.Radius;
 
-	glm::vec3 Up = State->up;
-	//Up.y = 1.0f;
+	glm::vec3 Up = {};
+	Up.y = 1.0f;
 	
 	glm::vec3 Right = glm::normalize(glm::cross(Forward, Up));
 	Up = glm::cross(Right, Forward);
