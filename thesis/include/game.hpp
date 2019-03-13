@@ -46,11 +46,6 @@ private:
 	shader text_shader{"resources/shaders/text.vs", "resources/shaders/text.fs"};
 	shader triangle_shader{"resources/shaders/lol.vs", "resources/shaders/lol.fs"};
 
-	texture albedo{ "resources/textures/rustediron2_albedo.png" };
-	texture normal{ "resources/textures/rustediron2_normal.png" };
-	texture metallic{ "resources/textures/rustediron2_metallic.png" };
-	texture roughness{ "resources/textures/rustediron2_roughness.png" };
-
 	camera game_camera;
 	directional_light light;
 
