@@ -179,6 +179,7 @@ void update_euler(world* w)
 	update_euler(&w->enemy_position, w->gravity, w->dt);
 	collision(w, &w->player_collider, &w->player_position);
 	collision(w, &w->enemy_collider, &w->enemy_position);
+	sphere_collision(w);
 }
 
 void update_verlet(point* p, glm::vec3 gravity, float dt)
