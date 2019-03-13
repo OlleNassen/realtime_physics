@@ -89,6 +89,16 @@ game::game()
 	
 	physics_world.player_collider.radius = 1.0f;
 
+	physics_world.enemy_position.old_position.x = 50.f;
+	physics_world.enemy_position.old_position.y = 50.f;
+	physics_world.enemy_position.old_position.z = 50.f;
+
+	physics_world.enemy_collider.position.x = 50.f;
+	physics_world.enemy_collider.position.y = 50.f;
+	physics_world.enemy_collider.position.z = 50.f;
+
+	physics_world.enemy_collider.radius = 1.0f;
+
 	physics_world.player_position.velocity = glm::vec3(0.0f, 0.0f, 0.0f);
 	physics_world.player_position.acceleration = glm::vec3(0.0f, 0.0f, 0.0f);
 
@@ -192,6 +202,9 @@ void game::render()
 		init_spheres(&spheres);
 		run_once = true;
 	}
+	spheres.model[0] = temp_model.model_mat;
+	spheres.model[1][3] = glm::vec4(physics_world.enemy_position.old_position, 1);
+
 	draw_spheres(&spheres, anim);
 
 	game_window.swap_buffers();
@@ -214,6 +227,7 @@ void game::update(float delta_time)
 	
 	
 	temp_model.set_position(physics_world.player_position.position);
+
 
 	glm::mat4 directions[4];
 	for (auto& dir : directions) dir = glm::mat4(1.0f);
@@ -328,7 +342,7 @@ void init_spheres(renderable_spheres* spheres)
 		glEnableVertexAttribArray(2);
 		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, stride, (void*)(5 * sizeof(float)));
 
-		spheres->model[i] = glm::mat4(1.f);
+		spheres->model[i] = glm::mat4{ -1,0,0,0,0,0,1,0,0,1,0,0,0,0,0,1 };
 	}
 
 
@@ -338,7 +352,7 @@ void draw_spheres(const renderable_spheres* spheres, const shader& shader)
 {
 	for (int i = 0; i < spheres->num_spheres; i++)
 	{
-		//shader.uniform("model", spheres->model[i]);
+		shader.uniform("model", spheres->model[i]);
 		glBindVertexArray(spheres->vao[i]);
 		glDrawElements(GL_TRIANGLE_STRIP, spheres->index_count[i], GL_UNSIGNED_INT, 0);
 	}
