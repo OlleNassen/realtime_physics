@@ -79,13 +79,13 @@ game::game()
 	ThirdPersonCamera.First = true;
 	ThirdPersonCamera.CameraPosition.Radius = 5.0f;
 
-	physics_world.player_position.old_position.x = 90.f;
+	physics_world.player_position.old_position.x = 160.f;
 	physics_world.player_position.old_position.y = 70.0f;
-	physics_world.player_position.old_position.z = 35.0f;
+	physics_world.player_position.old_position.z = 160.f;
 
-	physics_world.player_position.position.x = 90.f;
+	physics_world.player_position.position.x = 160.f;
 	physics_world.player_position.position.y = 70.0f;
-	physics_world.player_position.position.z = 35.0f;
+	physics_world.player_position.position.z = 160.f;
 	
 	physics_world.player_collider.radius = 1.0f;
 

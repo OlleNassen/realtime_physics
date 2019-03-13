@@ -90,13 +90,22 @@ void collision(world* w, sphere* sphere, point* point)
 	glm::vec3 normal = glm::vec3(0.0f, 0.0f, 0.0f);
 	bool collision = false;
 
-	for (auto& triangle : w->triangles)
+	int starting_value = ((sphere->position.x + sphere->position.z * 256) - (256 * 3)) * 2;
+	int max_value = ((sphere->position.x + sphere->position.z * 256) + (256 * 3)) * 2;
+
+	if(starting_value < 0)
+		starting_value = 0;
+
+	if(max_value > 256 * 256 * 2)
+		max_value = 256 * 256 * 2;
+
+	for (int i = starting_value; i < max_value; i++)
 	{
-		if (!sphere_triangle(sphere, &triangle))
+		if (!sphere_triangle(sphere, &w->triangles[i]))
 		{
 			collision = true;
-			glm::vec3 a = triangle.y - triangle.x;
-			glm::vec3 b = triangle.z - triangle.x;
+			glm::vec3 a = w->triangles[i].y - w->triangles[i].x;
+			glm::vec3 b = w->triangles[i].z - w->triangles[i].x;
 			normal += glm::normalize(glm::cross(a, b));
 		}
 	}
