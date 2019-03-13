@@ -89,6 +89,16 @@ game::game()
 	
 	physics_world.player_collider.radius = 1.0f;
 
+	physics_world.enemy_position.old_position.x = 50.f;
+	physics_world.enemy_position.old_position.y = 50.f;
+	physics_world.enemy_position.old_position.z = 50.f;
+
+	physics_world.enemy_position.position.x = 50.f;
+	physics_world.enemy_position.position.y = 50.f;
+	physics_world.enemy_position.position.z = 50.f;
+
+	physics_world.enemy_collider.radius = 1.0f;
+
 	physics_world.player_position.velocity = glm::vec3(0.0f, 0.0f, 0.0f);
 	physics_world.player_position.acceleration = glm::vec3(0.0f, 0.0f, 0.0f);
 
