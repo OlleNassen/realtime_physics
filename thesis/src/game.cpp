@@ -175,10 +175,6 @@ void game::render()
 
 	terrain_shader.use();
 	BindCamera(&ThirdPersonCamera, &terrain_shader);
-	albedo.uniform(terrain_shader, "albedo", 0);
-	normal.uniform(terrain_shader, "normal", 1);
-	metallic.uniform(terrain_shader, "metallic", 2);
-	roughness.uniform(terrain_shader, "roughness", 3);
 	terrain_shader.uniform("dir_light_dir", dir_light_dir);
 	terrain_shader.uniform("dir_light_color", dir_light_color);
 	terrain_shader.uniform("dir_light_intensity", dir_light_intensity);
@@ -208,10 +204,7 @@ void game::render()
 	spheres.model[0][3] = glm::vec4(physics_world.player_position.old_position, 1);
 	spheres.model[1][3] = glm::vec4(physics_world.enemy_position.old_position, 1);
 
-	albedo.uniform(anim, "albedo", 0);
-	normal.uniform(anim, "normal", 1);
-	metallic.uniform(anim, "metallic", 2);
-	roughness.uniform(anim, "roughness", 3);
+
 
 	draw_spheres(&spheres, anim);
 
@@ -363,8 +356,33 @@ void init_spheres(renderable_spheres* spheres)
 
 void draw_spheres(const renderable_spheres* spheres, const shader& shader)
 {
+	static texture albedo{ "resources/textures/rustediron2_albedo.png" };
+	static texture normal{ "resources/textures/rustediron2_normal.png" };
+	static texture metallic{ "resources/textures/rustediron2_metallic.png" };
+	static texture roughness{ "resources/textures/rustediron2_roughness.png" };
+
+	static texture sand_albedo{ "resources/textures/sandstone/sandstonecliff-albedo.png" };
+	static texture sand_normal{ "resources/textures/sandstone/sandstonecliff-normal-ue.png" };
+	static texture sand_metallic{ "resources/textures/sandstone/sandstonecliff-metalness.png" };
+	static texture sand_roughness{ "resources/textures/sandstone/sandstonecliff-roughness.png" };
+
 	for (int i = 0; i < spheres->num_spheres; i++)
 	{
+		if (i == 0)
+		{
+			albedo.uniform(shader, "albedo", 0);
+			normal.uniform(shader, "normal", 1);
+			metallic.uniform(shader, "metallic", 2);
+			roughness.uniform(shader, "roughness", 3);
+		}
+		else
+		{
+			sand_albedo.uniform(shader, "albedo", 0);
+			sand_normal.uniform(shader, "normal", 1);
+			sand_metallic.uniform(shader, "metallic", 2);
+			sand_roughness.uniform(shader, "roughness", 3);
+		}
+
 		shader.uniform("model", spheres->model[i]);
 		glBindVertexArray(spheres->vao[i]);
 		glDrawElements(GL_TRIANGLE_STRIP, spheres->index_count[i], GL_UNSIGNED_INT, 0);
