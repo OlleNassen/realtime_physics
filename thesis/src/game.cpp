@@ -187,7 +187,7 @@ void game::render()
 	skybox_shader.use();
 	BindCamera(&ThirdPersonCamera, &skybox_shader);
 	skybox_shader.uniform("view",
-        glm::mat4(glm::mat3(game_camera.get_view())));
+        glm::mat4(glm::mat3(ThirdPersonCamera.View)));
 	sky.render(skybox_shader);
 
 	//Animated model
@@ -326,7 +326,8 @@ void init_spheres(renderable_spheres* spheres)
 		glEnableVertexAttribArray(2);
 		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, stride, (void*)(5 * sizeof(float)));
 
-		spheres->model[i] = glm::mat4{ -1,0,0,0,0,0,1,0,0,1,0,0,0,0,0,1 };
+		spheres->model[i] = glm::mat4(1.0f);
+		spheres->model[i][2][2] = -1.0f;
 	}
 
 
