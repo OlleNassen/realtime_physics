@@ -175,9 +175,10 @@ void game::render()
 
 	terrain_shader.use();
 	BindCamera(&ThirdPersonCamera, &terrain_shader);
-	terrain_shader.uniform("lightPositions[0]", physics_world.player_position.position + glm::vec3(0, 2, 0));
-	terrain_shader.uniform("lightColors[0]", glm::vec3(1, 1, 1));
-	temp_model.TexSteal(skybox_shader);
+	albedo.uniform(terrain_shader, "albedo", 0);
+	normal.uniform(terrain_shader, "normal", 1);
+	metallic.uniform(terrain_shader, "metallic", 2);
+	roughness.uniform(terrain_shader, "roughness", 3);
 	terrain_shader.uniform("dir_light_dir", dir_light_dir);
 	terrain_shader.uniform("dir_light_color", dir_light_color);
 	terrain_shader.uniform("dir_light_intensity", dir_light_intensity);
@@ -192,14 +193,11 @@ void game::render()
 	//Animated model
 	anim.use();
 	BindCamera(&ThirdPersonCamera, &anim);
-	anim.uniform("lightPositions[0]", physics_world.player_position.position + glm::vec3(0,2,0));
-	anim.uniform("lightColors[0]", glm::vec3(1,1,1));
 
 	anim.uniform("dir_light_dir", dir_light_dir);
 	anim.uniform("dir_light_color", dir_light_color);
 	anim.uniform("dir_light_intensity", dir_light_intensity);
 
-	temp_model.draw(anim);
 	static renderable_spheres spheres;
 	static bool run_once = false;
 	if (!run_once)
@@ -207,8 +205,13 @@ void game::render()
 		init_spheres(&spheres);
 		run_once = true;
 	}
-	spheres.model[0] = temp_model.model_mat;
+	spheres.model[0][3] = glm::vec4(physics_world.player_position.old_position, 1);
 	spheres.model[1][3] = glm::vec4(physics_world.enemy_position.old_position, 1);
+
+	albedo.uniform(anim, "albedo", 0);
+	normal.uniform(anim, "normal", 1);
+	metallic.uniform(anim, "metallic", 2);
+	roughness.uniform(anim, "roughness", 3);
 
 	draw_spheres(&spheres, anim);
 
@@ -228,8 +231,6 @@ void game::update(float delta_time)
 	{
 		update_euler(&physics_world);
 	}
-		
-	temp_model.set_position(physics_world.player_position.position);
 
 	double MX, MY;
 	glfwGetCursorPos(game_window.glfw_window, &MX, &MY);

@@ -299,12 +299,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\animation.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='unity_debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='unity_debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='unity_release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='unity_release|x64'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="src\game.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='unity_debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='unity_debug|x64'">true</ExcludedFromBuild>
@@ -380,11 +374,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\animation.hpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='unity_debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='unity_debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='unity_release|Win32'">true</ExcludedFromBuild>
-    </ClInclude>
     <ClInclude Include="include\buffer.hpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='unity_debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='unity_debug|x64'">true</ExcludedFromBuild>
