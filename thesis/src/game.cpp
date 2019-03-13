@@ -269,6 +269,17 @@ void game::render()
 
 void game::update(float delta_time)
 {
+	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_Q))
+	{
+		physics_world.enemy_position.old_position.x = 200.f;
+		physics_world.enemy_position.old_position.y = 50.f;
+		physics_world.enemy_position.old_position.z = 200.f;
+
+		physics_world.enemy_position.position.x = 200.f;
+		physics_world.enemy_position.position.y = 50.f;
+		physics_world.enemy_position.position.z = 200.f;
+	}
+	
 	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_F1))
 	{
 		terrain_type = 0;
