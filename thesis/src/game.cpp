@@ -250,15 +250,18 @@ void game::render()
 	switch (ball_material[1])
 	{
 	case 0:
-		temp_text.render_text("Enemy weight: 100 kg", 900.f, 700.f, .3f);
+		temp_text.render_text("Friend weight: 100 kg", 900.f, 700.f, .3f);
 		break;
 	case 1:
-		temp_text.render_text("Enemy weight: 10 kg", 900.f, 700.f, .3f);
+		temp_text.render_text("Friend weight: 10 kg", 900.f, 700.f, .3f);
 		break;
 	case 2:
-		temp_text.render_text("Enemy weight: 1 kg", 900.f, 700.f, .3f);
+		temp_text.render_text("Friend weight: 1 kg", 900.f, 700.f, .3f);
 		break;
 	}
+
+	temp_text.render_text("Player elasticity: " + std::to_string(physics_world.player_collider.elasticity).substr(0,4), 350, 25.f, .3f);
+	temp_text.render_text("Friend elasticity: " + std::to_string(physics_world.enemy_collider.elasticity).substr(0, 4), 350.f, 5.f, .3f);
 
 	temp_text.render_text("Material friction: " + std::to_string(physics_world.friction_val).substr(0, 4), 900.f, 0.f, .3f);
 
@@ -290,32 +293,39 @@ void game::update(float delta_time)
 	{
 		ball_material[0] = 0;
 		physics_world.player_collider.weight = 100.f;
+		physics_world.player_collider.elasticity = 0.6f;
 	}
 	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_F6))
 	{
 		ball_material[0] = 1;
 		physics_world.player_collider.weight = 10.f;
+		physics_world.player_collider.elasticity = 0.21f;
 	}
 	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_F7))
 	{
 		ball_material[0] = 2;
 		physics_world.player_collider.weight = 1.f;
+		physics_world.player_collider.elasticity = 0.9f;
 	}
 
 	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_5))
 	{
 		ball_material[1] = 0;
 		physics_world.enemy_collider.weight = 100.f;
+		physics_world.enemy_collider.elasticity = 0.6f;
+
 	}
 	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_6))
 	{
 		ball_material[1] = 1;
 		physics_world.enemy_collider.weight = 10.f;
+		physics_world.enemy_collider.elasticity = 0.21f;
 	}
 	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_7))
 	{
 		ball_material[1] = 2;
 		physics_world.enemy_collider.weight = 1.f;
+		physics_world.enemy_collider.elasticity = 0.9f;
 	}
 
 	
