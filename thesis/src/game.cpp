@@ -171,7 +171,7 @@ void game::render()
 
 	static glm::vec3 dir_light_dir = glm::vec3(0, -1, 0);
 	static glm::vec3 dir_light_color = glm::vec3(17, 17, 53);
-	static float dir_light_intensity = 100.f;
+	static float dir_light_intensity = 1.f;
 
 	terrain_shader.use();
 	BindCamera(&ThirdPersonCamera, &terrain_shader);

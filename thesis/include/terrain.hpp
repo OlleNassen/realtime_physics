@@ -32,20 +32,20 @@ private:
 	vertex_array terrain_array;
 	buffer terrain_vbo;
 	buffer terrain_ebo{GL_ELEMENT_ARRAY_BUFFER};
-	texture albedo{ "resources/textures/rustediron2_albedo.png" };
-	texture normal{ "resources/textures/rustediron2_normal.png" };
-	texture metallic{ "resources/textures/rustediron2_metallic.png" };
-	texture roughness{ "resources/textures/rustediron2_roughness.png" };
+	//texture albedo{ "resources/textures/slatecliffrock_albedo.png" };
+	//texture normal{ "resources/textures/slatecliffrock_Normal.png" };
+	//texture metallic{ "resources/textures/slatecliffrock_Metallic.png" };
+	//texture roughness{ "resources/textures/slatecliffrock_Roughness2.png" };
 
-	texture albedo2{ "resources/textures/rustediron2_albedo.png" };
-	texture normal2{ "resources/textures/rustediron2_normal.png" };
-	texture metallic2{ "resources/textures/rustediron2_metallic.png" };
-	texture roughness2{ "resources/textures/rustediron2_roughness.png" };
+	//texture albedo{ "resources/textures/snow-packed12-Base_Color.png" };
+	//texture normal{ "resources/textures/snow-packed12-Normal-dx.png" };
+	//texture metallic{ "resources/textures/snow-packed12-Metallic.png" };
+	//texture roughness{ "resources/textures/snow-packed12-Roughness.png" };
 
-	texture albedo3{ "resources/textures/rustediron2_albedo.png" };
-	texture normal3{ "resources/textures/rustediron2_normal.png" };
-	texture metallic3{ "resources/textures/rustediron2_metallic.png" };
-	texture roughness3{ "resources/textures/rustediron2_roughness.png" };
+	texture albedo{ "resources/textures/branches_twisted_albedo.png" };
+	texture normal{ "resources/textures/branches_twisted_Normal-ue.png" };
+	texture metallic{ "resources/textures/branches_twisted_metalness.png" };
+	texture roughness{ "resources/textures/branches_twisted_Roughness.png" };
 
 	int width = 0;
 	int height = 0;

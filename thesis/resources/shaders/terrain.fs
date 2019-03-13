@@ -14,16 +14,6 @@ uniform sampler2D normal;
 uniform sampler2D roughness;
 uniform sampler2D metallic;
 
-uniform sampler2D albedo2;
-uniform sampler2D normal2;
-uniform sampler2D roughness2;
-uniform sampler2D metallic2;
-
-uniform sampler2D albedo3;
-uniform sampler2D normal3;
-uniform sampler2D roughness3;
-uniform sampler2D metallic3;
-
 const int num_lights = 1;
 
 uniform vec3 dir_light_dir;
@@ -104,30 +94,6 @@ void main()
 	float roughness_texture = texture2D(roughness,fs_in.tex_coord).r;
 	float ao = 1.0;
 
-	/*vec3 color1 = texture2D(diffuse, fs_in.tex_coord).xyz;
-	vec3 color2 = texture2D(diffuse2, fs_in.tex_coord).xyz;
-	vec3 color3 = texture2D(diffuse3, fs_in.tex_coord).xyz;
-	float blend = 0.0;
-
-	float slope = 1.0 - fs_in.world_normal.y;
-
-	if (slope < 0.2)
-    {
-        blend = slope / 0.2;
-        albedo_texture = mix(color1, color2, blend);
-    }
-
-    if (slope < 0.7 && slope >= 0.2)
-    {
-        blend = (slope - 0.2f) * (1.0 / (0.7 - 0.2));
-        albedo_texture = mix(color2, color3, blend);
-    }
-
-    if (slope >= 0.7)
-    {
-        albedo_texture = color3;
-    }*/
-
     vec3 F0 = vec3(0.04); 
     F0 = mix(F0, albedo_texture, metallic_texture);
 
@@ -170,13 +136,6 @@ void main()
     color = color / (color + vec3(1.0));
     // gamma correct
     color = pow(color, vec3(1.0/2.2));
-	/*
-	vec3 test_color = vec3(0,0,0);
 
-	if(abs(fs_in.tex_coord.x - fs_in.tex_coord.x) < 0.05)
-	{
-		test_color = vec3(1,0,0);
-	}
-	*/
     fragment_color = vec4(color, 1.0);
 }
