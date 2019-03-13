@@ -1,4 +1,3 @@
-#include "animation.cpp"
 #include "camera.cpp"
 #include "directional_light.cpp"
 #include "game.cpp"
