@@ -175,6 +175,7 @@ void game::render()
 
 	terrain_shader.use();
 	BindCamera(&ThirdPersonCamera, &terrain_shader);
+
 	terrain_shader.uniform("dir_light_dir", dir_light_dir);
 	terrain_shader.uniform("dir_light_color", dir_light_color);
 	terrain_shader.uniform("dir_light_intensity", dir_light_intensity);
