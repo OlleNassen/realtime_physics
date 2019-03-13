@@ -236,6 +236,8 @@ void game::render()
 
 void game::update(float delta_time)
 {
+	
+	
 	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_1)) is_verlet = true;
 	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_2)) is_verlet = false;
 	
@@ -253,6 +255,16 @@ void game::update(float delta_time)
 	ThirdPersonCamera.PlayerPosition = physics_world.player_position.position;
 
 	UpdateCamera(&ThirdPersonCamera, (int)MX, (int)MY, delta_time);
+
+	if (glfwGetMouseButton(game_window.glfw_window, GLFW_MOUSE_BUTTON_LEFT))
+	{
+		physics_world.player_position.acceleration 
+			= 100.0f * DirectionVector(ThirdPersonCamera.CameraPosition);
+	}
+	else
+	{
+		physics_world.player_position.acceleration = glm::vec3(0.0f);
+	}
 }
 
 void init_spheres(renderable_spheres* spheres)
