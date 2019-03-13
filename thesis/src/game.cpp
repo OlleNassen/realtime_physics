@@ -100,8 +100,8 @@ game::game()
 	physics_world.enemy_position.position.z = 200.f;
 
 	physics_world.enemy_collider.radius = 1.0f;
-	physics_world.enemy_collider.weight = 1.f;
-	physics_world.enemy_collider.elasticity = 0.6f;
+	physics_world.enemy_collider.weight = 10.f;
+	physics_world.enemy_collider.elasticity = 0.21f;
 
 	physics_world.player_position.velocity = glm::vec3(0.0f, 0.0f, 0.0f);
 	physics_world.player_position.acceleration = glm::vec3(0.0f, 0.0f, 0.0f);
