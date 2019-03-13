@@ -75,43 +75,13 @@ void draw(world* w, const shader& shader)
 	glBindVertexArray(0);
 }
 
-void update_verlet(world* w)
+void collision(world* w)
 {
-	float dt_squared = w->dt * w->dt;
-
-	glm::vec3 acceleration(0);
-	glm::vec3 angular_acceleration(0.f);
-	glm::vec3 gravity = w->gravity;
-	acceleration.y = gravity.y;
-
-	//Position
-	glm::vec3 temp_position = w->player_position.position;
-
-	w->player_position.position =
-		2.0f * w->player_position.position
-		- w->player_position.old_position +
-		acceleration * w->dt * w->dt;
-
-	acceleration.y = 0.0f;
-
-	//Rotation 
-	glm::vec3 temp_rotation = w->player_position.rotation;
-
-	w->player_position.rotation =
-		2.0f * w->player_position.rotation
-		- w->player_position.old_rotation +
-		angular_acceleration * w->dt * w->dt;
-
-	//resolve collisions
 	w->player_collider.position = w->player_position.position;
-
-	w->player_position.old_position = temp_position;
-	w->player_position.old_rotation = temp_rotation;
-
 	
 	glm::vec3 normal = glm::vec3(0.0f, 0.0f, 0.0f);
 	bool collision = false;
-	
+
 	for (auto& triangle : w->triangles)
 	{
 		if (!sphere_triangle(&w->player_collider, &triangle))
@@ -122,7 +92,7 @@ void update_verlet(world* w)
 			normal += glm::normalize(glm::cross(a, b));
 		}
 	}
-	
+
 	if (collision)
 	{
 		normal = glm::normalize(normal);
@@ -130,9 +100,9 @@ void update_verlet(world* w)
 		float sphere_weight = 10.0f;
 		float friction_val = 0.09f;
 
-		glm::vec3 gravity_direction = glm::normalize(gravity);
-		glm::vec3 force = sphere_weight * gravity;
-		float angle = glm::dot(gravity, normal);
+		glm::vec3 gravity_direction = glm::normalize(w->gravity);
+		glm::vec3 force = sphere_weight * w->gravity;
+		float angle = glm::dot(w->gravity, normal);
 
 		glm::vec3 normal_force = force * normal * angle;
 		glm::vec3 friction = normal_force * -friction_val;
@@ -140,26 +110,48 @@ void update_verlet(world* w)
 		glm::vec3 total_forces(0.f);
 		total_forces += normal_force;
 		total_forces += friction;
-		/*
-		glm::vec3 total_moment(0.f);
-		total_moment += glm::cross(-(w->player_collider.radius * normal), total_forces);
-		*/
-		glm::vec3 rot_angle = w->player_position.position - w->player_position.old_position;
-		glm::mat4 model(1.0f);
-		model =
-			glm::rotate(model, rot_angle.x, glm::vec3(1.0f, 0.0f, 0.0f)) *
-			glm::rotate(model, rot_angle.y, glm::vec3(0.0f, 1.0f, 0.0f)) *
-			glm::rotate(model, rot_angle.z, glm::vec3(0.0f, 0.0f, 1.0f));
 
-		w->model_mat = model;
-
-		glm::vec3 total_displacement = (total_forces / sphere_weight) * dt_squared;
+		glm::vec3 total_displacement = (total_forces / sphere_weight) * w->dt * w->dt;
 
 		glm::vec3 new_pos = w->player_position.position + total_displacement + elasticity * glm::reflect(
-			w->player_position.position - w->player_position.old_position,
+			w->player_position.velocity * w->dt,
 			normal);
 
 		w->player_position.old_position = w->player_position.position;
 		w->player_position.position = new_pos;
+
+		w->player_position.velocity = (w->player_position.position - w->player_position.old_position) / w->dt;
 	}
+}
+
+void update_verlet(world* w)
+{
+	glm::vec3 acceleration = w->player_position.acceleration + w->gravity;
+	glm::vec3 temp_position = w->player_position.position;
+
+	
+	w->player_position.position =
+		2.0f * w->player_position.position - w->player_position.old_position 
+		+ acceleration * w->dt * w->dt;
+
+	w->player_position.velocity = 
+		(w->player_position.position - w->player_position.old_position) / w->dt;
+	
+	
+	w->player_position.old_position = temp_position;
+	collision(w);
+}
+
+void update_euler(world* w)
+{
+	glm::vec3 acceleration = w->player_position.acceleration + w->gravity;
+	glm::vec3 temp_position = w->player_position.position;
+
+	
+	w->player_position.velocity += acceleration * w->dt;
+	w->player_position.position += w->player_position.velocity * w->dt;
+
+	
+	w->player_position.old_position = temp_position;
+	collision(w);
 }

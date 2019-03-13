@@ -66,6 +66,8 @@ private:
 
 	cam3p ThirdPersonCamera = {};
 
+	bool is_verlet = true;
+
 	void render();
 	void update(float delta_time);
 };

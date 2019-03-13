@@ -10,9 +10,9 @@ struct point
 {
 	glm::vec3 position;
 	glm::vec3 old_position;
-	
-	glm::vec3 rotation;
-	glm::vec3 old_rotation;
+
+	glm::vec3 velocity;
+	glm::vec3 acceleration;
 };
 
 struct sphere
@@ -42,6 +42,8 @@ void draw(world* w, const shader& shader);
 
 float magnitude_squared(glm::vec3* v);
 
+void collision(world* w);
 void update_verlet(world* w);
+void update_euler(world* w);
 
 #endif
