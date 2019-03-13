@@ -33,6 +33,8 @@ struct world
 	float dt;
 	point player_position;
 	sphere player_collider;
+	point enemy_position;
+	sphere enemy_collider;
 	glm::vec3 gravity;
 	glm::mat4 model_mat = glm::mat4(1.f);
 	std::vector<triangle> triangles;	
