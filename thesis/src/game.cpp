@@ -24,7 +24,7 @@ struct renderable_spheres
 };
 
 void init_spheres(renderable_spheres* spheres);
-void draw_spheres(const renderable_spheres* spheres, const shader& shader);
+void draw_spheres(const renderable_spheres* spheres, int type[], const shader& shader);
 
 game::game()
 	: game_camera(glm::radians(45.0f), width, height, 0.1f, 10000.0f)
@@ -110,6 +110,9 @@ game::game()
 	physics_world.enemy_position.acceleration = glm::vec3(0.0f, 0.0f, 0.0f);
 
 	physics_world.gravity = glm::vec3(0.0f, -9.82f, 0.0f);
+
+	ball_material[0] = 0;
+	ball_material[1] = 1;
 
 	const int width = 256;
 	for (unsigned int i = 0; i < terrain.vertices.size() - (width + 1); i++)
@@ -210,9 +213,7 @@ void game::render()
 	spheres.model[0][3] = glm::vec4(physics_world.player_position.old_position, 1);
 	spheres.model[1][3] = glm::vec4(physics_world.enemy_position.old_position, 1);
 
-
-
-	draw_spheres(&spheres, anim);
+	draw_spheres(&spheres, ball_material ,anim);
 
 	glDisable(GL_DEPTH_TEST);
 	text_shader.use();
@@ -238,6 +239,39 @@ void game::update(float delta_time)
 	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_F1)) terrain_type = 0;
 	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_F2)) terrain_type = 1;
 	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_F3)) terrain_type = 2;
+
+	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_F5))
+	{
+		ball_material[0] = 0;
+		physics_world.player_collider.weight = 100.f;
+	}
+	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_F6))
+	{
+		ball_material[0] = 1;
+		physics_world.player_collider.weight = 10.f;
+	}
+	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_F7))
+	{
+		ball_material[0] = 2;
+		physics_world.player_collider.weight = 0.2f;
+	}
+
+	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_5))
+	{
+		ball_material[1] = 0;
+		physics_world.enemy_collider.weight = 100.f;
+	}
+	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_6))
+	{
+		ball_material[1] = 1;
+		physics_world.enemy_collider.weight = 10.f;
+	}
+	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_7))
+	{
+		ball_material[1] = 2;
+		physics_world.enemy_collider.weight = 0.2f;
+	}
+
 	
 	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_1)) is_verlet = true;
 	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_2)) is_verlet = false;
@@ -362,7 +396,7 @@ void init_spheres(renderable_spheres* spheres)
 
 }
 
-void draw_spheres(const renderable_spheres* spheres, const shader& shader)
+void draw_spheres(const renderable_spheres* spheres, int type[], const shader& shader)
 {
 	static texture albedo{ "resources/textures/rustediron2_albedo.png" };
 	static texture normal{ "resources/textures/rustediron2_normal.png" };
@@ -374,21 +408,34 @@ void draw_spheres(const renderable_spheres* spheres, const shader& shader)
 	static texture sand_metallic{ "resources/textures/sandstone/sandstonecliff-metalness.png" };
 	static texture sand_roughness{ "resources/textures/sandstone/sandstonecliff-roughness.png" };
 
+	static texture bamboo_albedo{ "resources/textures/bamboo/bamboo-wood-semigloss-albedo.png" };
+	static texture bamboo_normal{ "resources/textures/bamboo/bamboo-wood-semigloss-normal.png" };
+	static texture bamboo_metallic{ "resources/textures/bamboo/bamboo-wood-semigloss-metal.png" };
+	static texture bamboo_roughness{ "resources/textures/bamboo/bamboo-wood-semigloss-roughness.png" };
+
 	for (int i = 0; i < spheres->num_spheres; i++)
 	{
-		if (i == 0)
+		if (type[i] == 0)
 		{
 			albedo.uniform(shader, "albedo", 0);
 			normal.uniform(shader, "normal", 1);
 			metallic.uniform(shader, "metallic", 2);
 			roughness.uniform(shader, "roughness", 3);
 		}
-		else
+		else if(type[i] == 1)
 		{
 			sand_albedo.uniform(shader, "albedo", 0);
 			sand_normal.uniform(shader, "normal", 1);
 			sand_metallic.uniform(shader, "metallic", 2);
 			sand_roughness.uniform(shader, "roughness", 3);
+		}
+
+		else if (type[i] == 2)
+		{
+			bamboo_albedo.uniform(shader, "albedo", 0);
+			bamboo_normal.uniform(shader, "normal", 1);
+			bamboo_metallic.uniform(shader, "metallic", 2);
+			bamboo_roughness.uniform(shader, "roughness", 3);
 		}
 
 		shader.uniform("model", spheres->model[i]);

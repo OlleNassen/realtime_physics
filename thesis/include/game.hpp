@@ -64,6 +64,7 @@ private:
 	cam3p ThirdPersonCamera = {};
 
 	int terrain_type = 0;
+	int ball_material[2];
 
 	bool is_verlet = true;
 
