@@ -161,9 +161,6 @@ void sphere_collision(world* w)
 		w->player_position.velocity -= impulse / w->player_collider.weight;
 		w->enemy_position.velocity += impulse / w->enemy_collider.weight;
 
-		w->player_position.old_position = w->player_position.position;
-		w->enemy_position.old_position = w->enemy_position.position;
-
 		w->player_position.position -= impulse / w->player_collider.weight * w->dt;
 		w->enemy_position.position += impulse / w->enemy_collider.weight * w->dt;
 	}
