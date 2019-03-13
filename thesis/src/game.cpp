@@ -219,8 +219,6 @@ void game::update(float delta_time)
 	ThirdPersonCamera.PlayerPosition = physics_world.player_position.position;
 
 	UpdateCamera(&ThirdPersonCamera, (int)MX, (int)MY, delta_time);
-
-	physics_world.player_position.position = ThirdPersonCamera.PlayerPosition;
 }
 
 void init_spheres(renderable_spheres* spheres)
