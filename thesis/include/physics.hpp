@@ -48,4 +48,7 @@ void collision(world* w);
 void update_verlet(world* w);
 void update_euler(world* w);
 
+void update_verlet(point* p, glm::vec3 gravity, float dt);
+void update_euler(point* p, glm::vec3 gravity, float dt);
+
 #endif

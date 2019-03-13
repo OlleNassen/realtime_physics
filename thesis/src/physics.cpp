@@ -142,29 +142,37 @@ void sphere_collision(world* w)
 
 void update_verlet(world* w)
 {
-	glm::vec3 acceleration = w->player_position.acceleration + w->gravity;
-	glm::vec3 temp_position = w->player_position.position;
-
-	w->player_position.velocity = 
-		(w->player_position.position - w->player_position.old_position) / w->dt;
-	
-	w->player_position.position =
-		2.0f * w->player_position.position - w->player_position.old_position 
-		+ acceleration * w->dt * w->dt;
-	
-	w->player_position.old_position = temp_position;
+	update_verlet(&w->player_position, w->gravity, w->dt);
 	collision(w);
 }
 
 void update_euler(world* w)
 {
-	glm::vec3 acceleration = w->player_position.acceleration + w->gravity;
-	glm::vec3 temp_position = w->player_position.position;
-	
-	w->player_position.velocity += acceleration * w->dt;
-	w->player_position.position += w->player_position.velocity * w->dt;
-
-	
-	w->player_position.old_position = temp_position;
+	update_euler(&w->player_position, w->gravity, w->dt);
 	collision(w);
+}
+
+void update_verlet(point* p, glm::vec3 gravity, float dt)
+{
+	glm::vec3 acceleration = p->acceleration + gravity;
+	glm::vec3 temp_position = p->position;
+
+	p->velocity = (p->position - p->old_position) / dt;
+
+	p->position = 2.0f * p->position - p->old_position
+		+ acceleration * dt * dt;
+
+	p->old_position = temp_position;
+}
+
+void update_euler(point* p, glm::vec3 gravity, float dt)
+{
+	glm::vec3 acceleration = p->acceleration + gravity;
+	glm::vec3 temp_position = p->position;
+
+	p->velocity += acceleration * dt;
+	p->position += p->velocity * dt;
+
+
+	p->old_position = temp_position;
 }
