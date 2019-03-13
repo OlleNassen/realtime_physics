@@ -78,16 +78,11 @@ game::game()
 	physics_world.player_position.position.x = 90.f;
 	physics_world.player_position.position.y = 70.0f;
 	physics_world.player_position.position.z = 35.0f;
-
-	physics_world.player_position.old_rotation.x = 0.f;
-	physics_world.player_position.old_rotation.y = 0.0f;
-	physics_world.player_position.old_rotation.z = 0.0f;
-
-	physics_world.player_position.rotation.x = 0.f;
-	physics_world.player_position.rotation.y = 0.0f;
-	physics_world.player_position.rotation.z = 0.0f;
 	
 	physics_world.player_collider.radius = 1.0f;
+
+	physics_world.player_position.velocity = glm::vec3(0.0f, 0.0f, 0.0f);
+	physics_world.player_position.acceleration = glm::vec3(0.0f, 0.0f, 0.0f);
 
 	physics_world.gravity = glm::vec3(0.0f, -9.82f, 0.0f);
 
@@ -188,7 +183,20 @@ void game::render()
 
 void game::update(float delta_time)
 {
-	update_verlet(&physics_world);	
+	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_1)) is_verlet = true;
+	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_2)) is_verlet = false;
+	
+	if (is_verlet)
+	{
+		update_verlet(&physics_world);	
+	}
+	else
+	{
+		update_euler(&physics_world);
+	}
+	
+	
+	
 	temp_model.set_position(physics_world.player_position.position);
 
 	glm::mat4 directions[4];
@@ -199,9 +207,9 @@ void game::update(float delta_time)
 	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_A)) directions[2] = glm::rotate(directions[2], -delta_time, glm::vec3(1.0f, 0.0f, 0.0f));
 	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_D)) directions[3] = glm::rotate(directions[3], delta_time, glm::vec3(1.0f, 0.0f, 0.0f));
 	
-	physics_world.gravity = glm::vec3(directions[0] * directions[1] * directions[2] * directions[3] * glm::vec4(physics_world.gravity, 0.0f));
+	physics_world.gravity = glm::vec3(directions[0] * directions[1] * directions[2] * directions[3] * glm::vec4(physics_world.gravity, 1.0f));
 	ThirdPersonCamera.up = -glm::normalize(physics_world.gravity);
-	
+
 	double MX, MY;
 	glfwGetCursorPos(game_window.glfw_window, &MX, &MY);
 	ThirdPersonCamera.PlayerPosition = physics_world.player_position.position;
