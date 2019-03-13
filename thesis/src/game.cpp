@@ -226,10 +226,16 @@ void game::update(float delta_time)
 	if (is_verlet)
 	{
 		update_verlet(&physics_world);
+		text_shader.use();
+		BindCamera(&ThirdPersonCamera, &text_shader);
+		temp_text.render_text("VERLET INTEGRATION", 0, 0, 1.f);
 	}
 	else
 	{
 		update_euler(&physics_world);
+		text_shader.use();
+		BindCamera(&ThirdPersonCamera, &text_shader);
+		temp_text.render_text("EULER", 0, 0, 1.f);
 	}
 
 	double MX, MY;
