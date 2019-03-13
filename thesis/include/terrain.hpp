@@ -32,9 +32,20 @@ private:
 	vertex_array terrain_array;
 	buffer terrain_vbo;
 	buffer terrain_ebo{GL_ELEMENT_ARRAY_BUFFER};
-	texture grass{"resources/images/grass.png"};
-	texture slope{"resources/images/slope.png"};
-	texture rock{"resources/images/rock.png"};
+	texture albedo{ "resources/textures/rustediron2_albedo.png" };
+	texture normal{ "resources/textures/rustediron2_normal.png" };
+	texture metallic{ "resources/textures/rustediron2_metallic.png" };
+	texture roughness{ "resources/textures/rustediron2_roughness.png" };
+
+	texture albedo2{ "resources/textures/rustediron2_albedo.png" };
+	texture normal2{ "resources/textures/rustediron2_normal.png" };
+	texture metallic2{ "resources/textures/rustediron2_metallic.png" };
+	texture roughness2{ "resources/textures/rustediron2_roughness.png" };
+
+	texture albedo3{ "resources/textures/rustediron2_albedo.png" };
+	texture normal3{ "resources/textures/rustediron2_normal.png" };
+	texture metallic3{ "resources/textures/rustediron2_metallic.png" };
+	texture roughness3{ "resources/textures/rustediron2_roughness.png" };
 
 	int width = 0;
 	int height = 0;

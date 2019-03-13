@@ -7,17 +7,22 @@ in vertex_data
 	vec3 world_normal;
 }fs_in;
 
-uniform sampler2D diffuse;
-uniform sampler2D diffuse2;
-uniform sampler2D diffuse3;
-
 out vec4 fragment_color;
 
 uniform sampler2D albedo;
 uniform sampler2D normal;
 uniform sampler2D roughness;
 uniform sampler2D metallic;
-//uniform sampler2D ao;
+
+uniform sampler2D albedo2;
+uniform sampler2D normal2;
+uniform sampler2D roughness2;
+uniform sampler2D metallic2;
+
+uniform sampler2D albedo3;
+uniform sampler2D normal3;
+uniform sampler2D roughness3;
+uniform sampler2D metallic3;
 
 const int num_lights = 1;
 

@@ -175,10 +175,7 @@ void game::render()
 
 	terrain_shader.use();
 	BindCamera(&ThirdPersonCamera, &terrain_shader);
-	albedo.uniform(terrain_shader, "albedo", 0);
-	normal.uniform(terrain_shader, "normal", 1);
-	metallic.uniform(terrain_shader, "metallic", 2);
-	roughness.uniform(terrain_shader, "roughness", 3);
+
 	terrain_shader.uniform("dir_light_dir", dir_light_dir);
 	terrain_shader.uniform("dir_light_color", dir_light_color);
 	terrain_shader.uniform("dir_light_intensity", dir_light_intensity);

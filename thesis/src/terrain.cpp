@@ -149,9 +149,22 @@ void terrain::render_current(const shader& shader,
     const glm::mat4& world_transform) const
 {
 	shader.uniform("model", glm::mat4(1.f));
-	/*grass.uniform(shader, "diffuse", 0);
-	slope.uniform(shader, "diffuse2", 1);
-	rock.uniform(shader, "diffuse3", 2);*/
+	
+	albedo.uniform(shader, "albedo", 0);
+	normal.uniform(shader, "normal", 1);
+	metallic.uniform(shader, "metallic", 2);
+	roughness.uniform(shader, "roughness", 3);
+
+	albedo2.uniform(shader, "albedo2", 4);
+	normal2.uniform(shader, "normal2", 5);
+	metallic2.uniform(shader, "metallic2", 6);
+	roughness2.uniform(shader, "roughness2", 7);
+
+	albedo3.uniform(shader, "albedo3", 8);
+	normal3.uniform(shader, "normal3", 9);
+	metallic3.uniform(shader, "metallic3", 10);
+	roughness3.uniform(shader, "roughness3", 11);
+	
 	terrain_array.bind();
 	glDrawElements(GL_TRIANGLES, draw_count, GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
