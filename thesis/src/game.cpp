@@ -88,7 +88,7 @@ game::game()
 	physics_world.player_position.position.z = 210.f;
 	
 	physics_world.player_collider.radius = 1.0f;
-	physics_world.player_collider.weight = 100.f;
+	physics_world.player_collider.weight = 32672.f;
 	physics_world.player_collider.elasticity = 0.6f;
 
 	physics_world.enemy_position.old_position.x = 200.f;
@@ -100,7 +100,7 @@ game::game()
 	physics_world.enemy_position.position.z = 200.f;
 
 	physics_world.enemy_collider.radius = 1.0f;
-	physics_world.enemy_collider.weight = 10.f;
+	physics_world.enemy_collider.weight = 11728.f;
 	physics_world.enemy_collider.elasticity = 0.21f;
 
 	physics_world.player_position.velocity = glm::vec3(0.0f, 0.0f, 0.0f);
@@ -235,30 +235,9 @@ void game::render()
 	int vz = (int)physics_world.player_position.velocity.z;
 	temp_text.render_text("Velocity: " + std::to_string(vx) + ", " + std::to_string(vy) + ", " + std::to_string(vz), 0, 700.f, .3f);
 
-	switch (ball_material[0])
-	{
-	case 0:
-		temp_text.render_text("Player weight: 100 kg", 500.f, 700.f, .3f);
-		break;
-	case 1:
-		temp_text.render_text("Player weight: 10 kg", 500.f, 700.f, .3f);
-		break;
-	case 2:
-		temp_text.render_text("Player weight: 1 kg", 500.f, 700.f, .3f);
-		break;
-	}
-	switch (ball_material[1])
-	{
-	case 0:
-		temp_text.render_text("Friend weight: 100 kg", 900.f, 700.f, .3f);
-		break;
-	case 1:
-		temp_text.render_text("Friend weight: 10 kg", 900.f, 700.f, .3f);
-		break;
-	case 2:
-		temp_text.render_text("Friend weight: 1 kg", 900.f, 700.f, .3f);
-		break;
-	}
+	temp_text.render_text("Player weight: " + std::to_string(physics_world.player_collider.weight).substr(0, 7) + "kg", 500.f, 700.f, .3f);
+
+	temp_text.render_text("Friend weight: " + std::to_string(physics_world.enemy_collider.weight).substr(0, 7) + "kg", 900.f, 700.f, .3f);
 
 	temp_text.render_text("Player elasticity: " + std::to_string(physics_world.player_collider.elasticity).substr(0,4), 350, 25.f, .3f);
 	temp_text.render_text("Friend elasticity: " + std::to_string(physics_world.enemy_collider.elasticity).substr(0, 4), 350.f, 5.f, .3f);
@@ -303,39 +282,39 @@ void game::update(float delta_time)
 	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_F5))
 	{
 		ball_material[0] = 0;
-		physics_world.player_collider.weight = 100.f;
+		physics_world.player_collider.weight = 32672.f;
 		physics_world.player_collider.elasticity = 0.6f;
 	}
 	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_F6))
 	{
 		ball_material[0] = 1;
-		physics_world.player_collider.weight = 10.f;
+		physics_world.player_collider.weight = 11728.f;
 		physics_world.player_collider.elasticity = 0.21f;
 	}
 	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_F7))
 	{
 		ball_material[0] = 2;
-		physics_world.player_collider.weight = 1.f;
+		physics_world.player_collider.weight = 6375.f;
 		physics_world.player_collider.elasticity = 0.9f;
 	}
 
 	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_5))
 	{
 		ball_material[1] = 0;
-		physics_world.enemy_collider.weight = 100.f;
+		physics_world.enemy_collider.weight = 32672.f;
 		physics_world.enemy_collider.elasticity = 0.6f;
 
 	}
 	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_6))
 	{
 		ball_material[1] = 1;
-		physics_world.enemy_collider.weight = 10.f;
+		physics_world.enemy_collider.weight = 11728.f;
 		physics_world.enemy_collider.elasticity = 0.21f;
 	}
 	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_7))
 	{
 		ball_material[1] = 2;
-		physics_world.enemy_collider.weight = 1.f;
+		physics_world.enemy_collider.weight = 6375.f;
 		physics_world.enemy_collider.elasticity = 0.9f;
 	}
 
