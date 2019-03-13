@@ -229,6 +229,12 @@ void game::render()
 		temp_text.render_text("EULER", 0, 0, 1.f);
 	}
 
+	
+	int vx = (int)physics_world.player_position.velocity.x;
+	int vy = (int)physics_world.player_position.velocity.y;
+	int vz = (int)physics_world.player_position.velocity.z;
+	temp_text.render_text("Velocity: " + std::to_string(vx) + ", " + std::to_string(vy) + ", " + std::to_string(vz), 0, 700.f, .3f);
+
 	glEnable(GL_DEPTH_TEST);
 
 	game_window.swap_buffers();
