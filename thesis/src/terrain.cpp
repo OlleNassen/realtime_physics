@@ -150,11 +150,6 @@ void terrain::render_current(const shader& shader,
 {
 	shader.uniform("model", glm::mat4(1.f));
 	
-	albedo.uniform(shader, "albedo", 0);
-	normal.uniform(shader, "normal", 1);
-	metallic.uniform(shader, "metallic", 2);
-	roughness.uniform(shader, "roughness", 3);
-	
 	terrain_array.bind();
 	glDrawElements(GL_TRIANGLES, draw_count, GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);

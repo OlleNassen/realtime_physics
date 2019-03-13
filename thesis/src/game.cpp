@@ -175,7 +175,12 @@ void game::render()
 
 	terrain_shader.use();
 	BindCamera(&ThirdPersonCamera, &terrain_shader);
-
+	switch (terrain_type)
+	{
+	case 0: terrain.rock(terrain_shader); break;
+	case 1: terrain.snow(terrain_shader); break;
+	case 2: terrain.wood(terrain_shader); break;
+	}
 	terrain_shader.uniform("dir_light_dir", dir_light_dir);
 	terrain_shader.uniform("dir_light_color", dir_light_color);
 	terrain_shader.uniform("dir_light_intensity", dir_light_intensity);
@@ -230,7 +235,9 @@ void game::render()
 
 void game::update(float delta_time)
 {
-	
+	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_F1)) terrain_type = 0;
+	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_F2)) terrain_type = 1;
+	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_F3)) terrain_type = 2;
 	
 	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_1)) is_verlet = true;
 	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_2)) is_verlet = false;

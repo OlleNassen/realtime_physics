@@ -63,6 +63,8 @@ private:
 
 	cam3p ThirdPersonCamera = {};
 
+	int terrain_type = 0;
+
 	bool is_verlet = true;
 
 	void render();

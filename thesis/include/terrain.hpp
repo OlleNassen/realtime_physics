@@ -23,6 +23,30 @@ public:
 	glm::vec3 calculate_camera_position(
         const glm::vec3& world_position, float position_offset) const;
 	std::vector<terrain_vertex> vertices;
+
+	void rock(const shader& shader)
+	{
+		albedo.uniform(shader, "albedo", 0);
+		normal.uniform(shader, "normal", 1);
+		metallic.uniform(shader, "metallic", 2);
+		roughness.uniform(shader, "roughness", 3);
+	}
+	void snow(const shader& shader)
+	{
+		albedo1.uniform(shader, "albedo", 0);
+		normal1.uniform(shader, "normal", 1);
+		metallic1.uniform(shader, "metallic", 2);
+		roughness1.uniform(shader, "roughness", 3);
+	}
+
+	void wood(const shader& shader)
+	{
+		albedo2.uniform(shader, "albedo", 0);
+		normal.uniform(shader, "normal", 1);
+		metallic2.uniform(shader, "metallic", 2);
+		roughness2.uniform(shader, "roughness", 3);
+	}
+
 private:
 	std::vector<int> heights;
 	int draw_count{0};
@@ -32,20 +56,20 @@ private:
 	vertex_array terrain_array;
 	buffer terrain_vbo;
 	buffer terrain_ebo{GL_ELEMENT_ARRAY_BUFFER};
-	//texture albedo{ "resources/textures/slatecliffrock_albedo.png" };
-	//texture normal{ "resources/textures/slatecliffrock_Normal.png" };
-	//texture metallic{ "resources/textures/slatecliffrock_Metallic.png" };
-	//texture roughness{ "resources/textures/slatecliffrock_Roughness2.png" };
+	texture albedo{ "resources/textures/slatecliffrock-albedo.png" };
+	texture normal{ "resources/textures/slatecliffrock_Normal.png" };
+	texture metallic{ "resources/textures/slatecliffrock_Metallic.png" };
+	texture roughness{ "resources/textures/slatecliffrock_Roughness2.png" };
 
-	//texture albedo{ "resources/textures/snow-packed12-Base_Color.png" };
-	//texture normal{ "resources/textures/snow-packed12-Normal-dx.png" };
-	//texture metallic{ "resources/textures/snow-packed12-Metallic.png" };
-	//texture roughness{ "resources/textures/snow-packed12-Roughness.png" };
+	texture albedo1{ "resources/textures/snow-packed12-Base_Color.png" };
+	texture normal1{ "resources/textures/snow-packed12-Normal-dx.png" };
+	texture metallic1{ "resources/textures/snow-packed12-Metallic.png" };
+	texture roughness1{ "resources/textures/snow-packed12-Roughness.png" };
 
-	texture albedo{ "resources/textures/branches_twisted_albedo.png" };
-	texture normal{ "resources/textures/branches_twisted_Normal-ue.png" };
-	texture metallic{ "resources/textures/branches_twisted_metalness.png" };
-	texture roughness{ "resources/textures/branches_twisted_Roughness.png" };
+	texture albedo2{ "resources/textures/branches_twisted_albedo.png" };
+	texture normal2{ "resources/textures/branches_twisted_Normal-ue.png" };
+	texture metallic2{ "resources/textures/branches_twisted_metalness.png" };
+	texture roughness2{ "resources/textures/branches_twisted_Roughness.png" };
 
 	int width = 0;
 	int height = 0;
