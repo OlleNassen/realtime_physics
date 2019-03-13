@@ -11,7 +11,7 @@ text::text()
 	}
 
 	FT_Face face;
-	if (FT_New_Face(library, "Resources/fonts/font.ttf", 0, &face))
+	if (FT_New_Face(library, "resources/fonts/font.ttf", 0, &face))
 		std::cout << "ERROR::FREETYPE: Failed to load font" << std::endl;
 
 	FT_Set_Pixel_Sizes(face, 0, 48);

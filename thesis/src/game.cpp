@@ -215,6 +215,22 @@ void game::render()
 
 	draw_spheres(&spheres, anim);
 
+	glDisable(GL_DEPTH_TEST);
+	text_shader.use();
+	text_shader.uniform("projection", glm::ortho(0.0f, 1280.f, 0.0f, 720.f));
+	text_shader.uniform("text_color", glm::vec3(17.f / 255.f, 17.f / 255.f, 53 / 255.f));
+
+	if (is_verlet)
+	{
+		temp_text.render_text("VERLET", 0, 0, 1.f);
+	}
+	else
+	{
+		temp_text.render_text("EULER", 0, 0, 1.f);
+	}
+
+	glEnable(GL_DEPTH_TEST);
+
 	game_window.swap_buffers();
 }
 
@@ -226,16 +242,10 @@ void game::update(float delta_time)
 	if (is_verlet)
 	{
 		update_verlet(&physics_world);
-		text_shader.use();
-		BindCamera(&ThirdPersonCamera, &text_shader);
-		temp_text.render_text("VERLET INTEGRATION", 0, 0, 1.f);
 	}
 	else
 	{
 		update_euler(&physics_world);
-		text_shader.use();
-		BindCamera(&ThirdPersonCamera, &text_shader);
-		temp_text.render_text("EULER", 0, 0, 1.f);
 	}
 
 	double MX, MY;
