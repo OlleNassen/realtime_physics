@@ -159,8 +159,11 @@ void sphere_collision(world* w)
 
 
 		glm::vec3 impulse = j * normal;
-		w->player_position.velocity -= 1 / w->player_collider.weight * impulse;
+		w->player_position.velocity -= (1 / w->player_collider.weight) * impulse;
 		w->enemy_position.velocity += 1 / w->enemy_collider.weight * impulse;
+
+		w->player_position.position -= (1 / w->player_collider.weight) * impulse * w->dt;
+		w->enemy_position.position += (1 / w->enemy_collider.weight) * impulse * w->dt;
 	}
 }
 
