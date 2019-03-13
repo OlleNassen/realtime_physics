@@ -113,12 +113,10 @@ void collision(world* w, sphere* sphere, point* point)
 	if (collision)
 	{
 		normal = glm::normalize(normal);
-		float elasticity = 0.7f;
-		float sphere_weight = 10.0f;
 		float friction_val = 0.09f;
 
 		glm::vec3 gravity_direction = glm::normalize(w->gravity);
-		glm::vec3 force = sphere_weight * w->gravity;
+		glm::vec3 force = sphere->weight * w->gravity;
 		float angle = glm::dot(w->gravity, normal);
 
 		glm::vec3 normal_force = force * normal * angle;
@@ -128,9 +126,9 @@ void collision(world* w, sphere* sphere, point* point)
 		total_forces += normal_force;
 		total_forces += friction;
 
-		glm::vec3 total_displacement = (total_forces / sphere_weight) * w->dt * w->dt;
+		glm::vec3 total_displacement = (total_forces / sphere->weight) * w->dt * w->dt;
 
-		glm::vec3 new_pos = point->position + total_displacement + elasticity * glm::reflect(
+		glm::vec3 new_pos = point->position + total_displacement + sphere->elasticity * glm::reflect(
 			point->velocity * w->dt,
 			normal);
 
@@ -145,7 +143,24 @@ void sphere_collision(world* w)
 {
 	if (sphere_sphere(&w->player_collider, &w->enemy_collider))
 	{
-		std::cout << "COLLISION\n";
+		glm::vec3 rv = w->player_position.velocity - w->enemy_position.velocity;
+
+		glm::vec3 normal = glm::normalize(w->player_collider.position - w->enemy_collider.position);
+
+		float velAlongNormal = glm::dot(rv, normal);
+
+		if (velAlongNormal > 0)
+			return;
+
+		float e = glm::min(w->player_collider.elasticity, w->enemy_collider.elasticity);
+
+		float j = -(1 + e) * velAlongNormal;
+		j /= 1 / w->player_collider.weight + 1 / w->enemy_collider.weight;
+
+
+		glm::vec3 impulse = j * normal;
+		w->player_position.velocity -= 1 / w->player_collider.weight * impulse;
+		w->enemy_position.velocity += 1 / w->enemy_collider.weight * impulse;
 	}
 }
 

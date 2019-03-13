@@ -19,6 +19,8 @@ struct sphere
 {
 	glm::vec3 position;
 	float radius;
+	float weight;
+	float elasticity;
 };
 
 struct triangle
