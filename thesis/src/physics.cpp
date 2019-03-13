@@ -132,6 +132,14 @@ void collision(world* w)
 	}
 }
 
+void sphere_collision(world* w)
+{
+	if (sphere_sphere(&w->player_collider, &w->enemy_collider))
+	{
+		std::cout << "COLLISION\n";
+	}
+}
+
 void update_verlet(world* w)
 {
 	glm::vec3 acceleration = w->player_position.acceleration + w->gravity;
