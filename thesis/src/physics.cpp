@@ -143,9 +143,9 @@ void sphere_collision(world* w)
 {
 	if (sphere_sphere(&w->player_collider, &w->enemy_collider))
 	{
-		glm::vec3 rv = w->player_position.velocity - w->enemy_position.velocity;
+		glm::vec3 rv = w->enemy_position.velocity - w->player_position.velocity;
 
-		glm::vec3 normal = glm::normalize(w->player_collider.position - w->enemy_collider.position);
+		glm::vec3 normal = glm::normalize(w->enemy_collider.position - w->player_collider.position);
 
 		float velAlongNormal = glm::dot(rv, normal);
 
@@ -157,16 +157,15 @@ void sphere_collision(world* w)
 		float j = -(1 + e) * velAlongNormal;
 		j /= 1 / w->player_collider.weight + 1 / w->enemy_collider.weight;
 
-
 		glm::vec3 impulse = j * normal;
-		w->player_position.velocity -= (1 / w->player_collider.weight) * impulse;
-		w->enemy_position.velocity += 1 / w->enemy_collider.weight * impulse;
+		w->player_position.velocity -= impulse / w->player_collider.weight;
+		w->enemy_position.velocity += impulse / w->enemy_collider.weight;
 
 		w->player_position.old_position = w->player_position.position;
 		w->enemy_position.old_position = w->enemy_position.position;
 
-		w->player_position.position -= (1 / w->player_collider.weight) * impulse * w->dt;
-		w->enemy_position.position += (1 / w->enemy_collider.weight) * impulse * w->dt;
+		w->player_position.position -= impulse / w->player_collider.weight * w->dt;
+		w->enemy_position.position += impulse / w->enemy_collider.weight * w->dt;
 	}
 }
 
