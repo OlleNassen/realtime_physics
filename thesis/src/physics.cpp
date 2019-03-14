@@ -103,6 +103,12 @@ void collision(world* w, sphere* sphere, point* point)
 	{
 		if (!sphere_triangle(sphere, &w->triangles[i]))
 		{
+			if (w->validate)
+			{
+				w->end_point = sphere->position;
+
+				std::cout << glm::distance(glm::vec3(w->starting_point.x, 0, w->starting_point.z), glm::vec3(w->end_point.x, 0, w->end_point.z))<< '\n';
+			}
 			collision = true;
 			glm::vec3 a = w->triangles[i].y - w->triangles[i].x;
 			glm::vec3 b = w->triangles[i].z - w->triangles[i].x;

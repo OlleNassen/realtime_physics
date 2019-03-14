@@ -34,6 +34,9 @@ struct world
 {
 	float friction_val = 0.20f;
 	float dt;
+	bool validate= false;
+	glm::vec3 starting_point;
+	glm::vec3 end_point;
 	point player_position;
 	sphere player_collider;
 	point enemy_position;

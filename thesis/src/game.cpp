@@ -261,6 +261,22 @@ void game::update(float delta_time)
 		physics_world.enemy_position.position.y = 50.f;
 		physics_world.enemy_position.position.z = 200.f;
 	}
+
+
+	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_P))
+	{
+		physics_world.player_position.old_position.x = 240.f;
+		physics_world.player_position.old_position.y = 50.f;
+		physics_world.player_position.old_position.z = 240.f;
+
+		physics_world.player_position.position.x = 240.f;
+		physics_world.player_position.position.y = 50.f;
+		physics_world.player_position.position.z = 240.f;
+		physics_world.player_position.velocity = glm::vec3(-15.f, 0.f, 0.f);
+
+		physics_world.starting_point = physics_world.player_position.position;
+		physics_world.validate = true;
+	}
 	
 	if (glfwGetKey(game_window.glfw_window, GLFW_KEY_F1))
 	{
